@@ -3,10 +3,10 @@ Contributors: wpswings
 Donate link:  https://wpswings.com/
 Tags: Booking, Appointments, Appointment Booking, Booking System, Scheduling
 Requires at least: 5.5.0
-Tested up to: 6.6.1
+Tested up to: 6.6.2
 WC requires at least: 6.5.0
-WC tested up to: 9.2.3
-Stable tag: 3.1.11
+WC tested up to: 9.3.3
+Stable tag: 3.2.0
 Requires PHP: 7.2
 License: GNU General Public License v3.0 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -84,7 +84,7 @@ WordPress Online Booking provides an online mobile-friendly WooCommerce easy fre
 With the help of the WooCommerceBooking Calendar, retailers can easily create and monitor their monthly bookings. Customers can also use such information to find out the start and end times of your service and easily start booking an appointment for them. Yes, retailers may now quickly specify the start and end times of the service for each day on the WP booking calendar. Moreover, let your clients have timetables that are simple to learn.
 
 **16) Offer Bookings Availability Settings**
-Admin managers may easily specify booking and scheduling for WooCommerce-based availability for the day, as well as the exact deadline for booking an appointment with WooCommerce appointments. They only need to modify the Start and End times in the WooCommerce booking Availability tab of the plugin settings area to do so.
+Admin managers may easily specify booking and scheduling for WooCommerce-based availability for the day, as well as the exact deadline for booking an appointment with WooCommerce appointments. They only need to modify the Start and End times in the WooCommerce booking Availability tab of the plugin settings area to do so. The admins are free to add more than 10 slots based on their requirements.
 
 You can also mark your bookings unavailability for a day or for an upcoming event or a holiday in advance using our exclusive one-day unavailability settings.
 
@@ -244,6 +244,12 @@ Check out [**WooCommerce Bookings knowledge base**](https://support.wpswings.com
 
 == Changelog ==
 
+= 3.2.0 - Released on 7 October 2024 =
+* New: user can add more than 10 slots for booking.
+* New: Add midnight slots for booking.
+* Fix: bug fix for mobile view dual calendar.
+* New: Compatibility With Latest WP[6.6.2] and WC[9.3.3].
+
 = 3.1.11 - Released on 30 August 2024 =
 * Fix: Calendar issue fix for mobile devices.
 * New: Compatibility With Latest WP[6.6.1] and WC[9.2.3].
@@ -382,6 +388,8 @@ Check out [**WooCommerce Bookings knowledge base**](https://support.wpswings.com
 
 == Upgrade Notice ==
 
-= 3.1.11 - Released on 30 August 2024 =
-* Fix: Calendar issue fix for mobile devices.
-* New: Compatibility With Latest WP[6.6.1] and WC[9.2.3].
+= 3.2.0 - Released on 7 October 2024 =
+* New: user can add more than 10 slots for booking.
+* New: Add midnight slots for booking.
+* Fix: bug fix for mobile view dual calendar.
+* New: Compatibility With Latest WP[6.6.2] and WC[9.3.3].
