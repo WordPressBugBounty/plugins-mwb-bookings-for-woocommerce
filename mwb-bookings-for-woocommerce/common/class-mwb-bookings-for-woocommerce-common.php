@@ -107,7 +107,9 @@ class Mwb_Bookings_For_Woocommerce_Common {
 			if ( isset( $screen->id ) && 'toplevel_page_theme-general-settings' !== $screen->id && 'page' !== $screen->id ) {
 
 				wp_enqueue_script( 'jquery-ui-datepicker' );
-				wp_enqueue_script( 'mwb-mbfw-time-picker-js', MWB_BOOKINGS_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/user-friendly-time-picker/dist/js/timepicker.min.js', array( 'jquery' ), $this->version, true );
+				if ( 'wp-swings_page_mwb_bookings_for_woocommerce_menu' ==  $screen->id ) {
+					wp_enqueue_script( 'mwb-mbfw-time-picker-js', MWB_BOOKINGS_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/user-friendly-time-picker/dist/js/timepicker.min.js', array( 'jquery' ), $this->version, true );
+				}
 				wp_enqueue_script( 'moment-js', MWB_BOOKINGS_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/moment-js/moment.min.js', array( 'jquery' ), $this->version, true );
 				wp_enqueue_script( 'datetime-picker-js', MWB_BOOKINGS_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/datetimepicker-master/build/jquery.datetimepicker.full.js', array( 'jquery', 'moment-js' ), $this->version, true );
 				wp_enqueue_script( 'jquery-ui-core' );
@@ -481,12 +483,7 @@ class Mwb_Bookings_For_Woocommerce_Common {
 				echo 'fail';
 				wp_die();
 			}
-			$wps_bfwp_msg = apply_filters( 'wps_mbfw_check_availablity', $product_id, $date_time_from, $date_time_to );
 
-			if ( 'fail' === $wps_bfwp_msg ) {
-				echo 'fail';
-				wp_die();
-			}
 			if ( 'day' === wps_booking_get_meta_data( $product_id, 'mwb_mbfw_booking_unit', true ) && ! empty( $date_time_to ) && ! empty( $date_time_from ) ) {
 				$from_timestamp = strtotime( $date_from );
 				$to_timestamp = strtotime( $date_to );
@@ -502,7 +499,12 @@ class Mwb_Bookings_For_Woocommerce_Common {
 				$wps_general_price = apply_filters( 'wps_mbfw_set_unit_cost_price_hour', $product_price, $product_id, $date_time_from, $date_time_to, $unit );
 			}
 		}
+		$wps_bfwp_msg = apply_filters( 'wps_mbfw_check_availablity', $product_id, $date_time_from, $date_time_to );
 
+		if ( 'fail' === $wps_bfwp_msg ) {
+			echo 'fail';
+			wp_die();
+		}
 		$services_cost = $this->mbfw_extra_service_charge( $product_id, $services_checked, $service_quantity, $people_number, $unit );
 		$extra_charges = $this->mbfw_extra_charges_calculation( $product_id, $people_number, $unit );
 							/**
@@ -1051,6 +1053,83 @@ class Mwb_Bookings_For_Woocommerce_Common {
 	 */
 	public function mwb_mbfw_hide_reorder_button_my_account_orders( $order_statuses ) {
 		return array();
+	}
+
+	/**
+	 * Get cart items for max booking slot.
+	 *
+	 * @return void
+	 */
+	public function mwb_mbfw_get_cart_items(){
+		check_ajax_referer( 'mbfw_common_nonce', 'nonce' );
+		$product_id = array_key_exists( 'product_id', $_POST ) ? sanitize_text_field( wp_unslash( $_POST['product_id'] ) ) : '';
+		$slot_selected = array_key_exists( 'slot_selected', $_POST ) ? sanitize_text_field( wp_unslash( $_POST['slot_selected'] ) ) : '';
+		$slot_left = array_key_exists( 'slot_left', $_POST ) ? $this->sanitize_text_associative_array($_POST['slot_left']): array();
+		$cart = WC()->cart->get_cart();
+		$max = '';
+		$max = get_post_meta( $product_id, 'mwb_mbfw_booking_max_limit_for_hour', true );
+
+		if ( !empty ($cart) ) {
+			foreach ($cart as $cart_item) {
+				if ( ( $cart_item['product_id'] == $product_id ) && ( $cart_item['mwb_mbfw_booking_values']['wps_booking_slot'] == $slot_selected ) ) {
+					if ( !empty( $slot_left ) && array_key_exists( $slot_selected, $slot_left ) ) {
+						$max_limit = $slot_left[$slot_selected]-$cart_item['quantity']; 
+						break;
+					} elseif($cart_item['mwb_mbfw_booking_values']['wps_booking_slot'] ==  $slot_selected ){
+						
+						$max_limit = $max-$cart_item['quantity'];
+						break;
+					} else {
+						$max_limit = $max-$cart_item['quantity'];
+						break;
+					}
+				} else {
+					if ( !empty( $slot_left ) && array_key_exists( $slot_selected, $slot_left ) ) {
+
+						$max_limit = $slot_left[$slot_selected];
+
+					} else {
+						$max_limit = $max;
+					}
+
+				}
+
+			}
+		} else {
+			if ( !empty( $slot_left ) && array_key_exists( $slot_selected, $slot_left ) ) {
+
+				$max_limit = $slot_left[$slot_selected];
+			} else {
+				$max_limit = $max;
+				
+			}
+		}
+
+		echo $max_limit;
+	
+		wp_die();
+
+	}
+
+	/**
+	 * Function to sanitize associative array.
+	 *
+	 * @param array $array Array to sort the data.
+	 * @return array
+	 */
+	function sanitize_text_associative_array( $array ) {
+		$sanitized_array = array();
+		if (empty($array)){
+			return $sanitized_array;
+		}
+	
+		foreach ($array as $key => $value) {
+
+			// Sanitize text fields
+			$sanitized_array[$key] = sanitize_text_field($value);
+		}
+	
+		return $sanitized_array;
 	}
 
 }
