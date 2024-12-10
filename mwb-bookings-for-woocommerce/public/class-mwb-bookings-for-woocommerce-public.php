@@ -70,6 +70,7 @@ class Mwb_Bookings_For_Woocommerce_Public {
 	 * @return mixed
 	 */
 	public function mwb_is_mobile_device(){
+		$user_ag = '';
 		if(!empty($_SERVER['HTTP_USER_AGENT'])){
 		   $user_ag = $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? sanitize_text_field(wp_unslash($_SERVER['HTTP_USER_AGENT'])) : '';
 		   if(preg_match('/(Mobile|Android|Tablet|GoBrowser|[0-9]x[0-9]*|uZardWeb\/|Mini|Doris\/|Skyfire\/|iPhone|Fennec\/|Maemo|Iris\/|CLDC\-|Mobi\/)/uis',$user_ag)){
@@ -145,10 +146,35 @@ class Mwb_Bookings_For_Woocommerce_Public {
 			// Add the date to the array.
 			$date_array[] = $date;
 		}
-
-		if ( is_single() ) {
+		if ( is_single() || is_page() ) {
 			global $post;
-			$product_id = $post->ID;
+			$product_id = '';
+			if ( is_page() && has_shortcode($post->post_content, 'product_page')) {
+				// Scan the content for product shortcodes to extract the product ID
+				$pattern = get_shortcode_regex();
+				if (preg_match_all('/' . $pattern . '/s', $post->post_content, $matches, PREG_SET_ORDER)) {
+					foreach ($matches as $shortcode) {
+						// Look for [product] or [product_page] shortcodes
+						if (in_array($shortcode[2], [ 'product_page'])) {
+							$attrs = shortcode_parse_atts($shortcode[3]);
+		
+							if (isset($attrs['id'])) {
+								$product = wc_get_product($attrs['id']);
+		
+								// Check if the product type matches
+								if ($product && $product->get_type() === 'mwb_booking') { // Replace 'specific_type' with the desired type
+									// Enqueue the script if the product type matches
+									$product_id = $product->get_id();
+									break;
+								 // Stop further processing once the script is enqueued
+								}
+							}
+						}
+					}
+				}
+			} else {
+				$product_id = $post->ID;
+			}
 			$temp_product = wc_get_product( $product_id );
 			$mwb_mbfw_show_date_with_time = wps_booking_get_meta_data( $product_id, 'mwb_mbfw_show_date_with_time', true );
 			if ( ! empty( $temp_product ) ) {
@@ -615,11 +641,11 @@ class Mwb_Bookings_For_Woocommerce_Public {
 						<?php
 						if ( ! empty( $attr ) ) {
 							?>
-							<input id="wps_booking_single_calendar_form_" name="wps_booking_single_calendar_form" <?php echo esc_attr( $attr ); ?>  class="flatpickr flatpickr-input active"  type="text" placeholder="<?php echo esc_attr( 'Choose date', 'mwb-bookings-for-woocommerce' ); ?>" readonly="readonly" >
+							<input id="wps_booking_single_calendar_form_" name="wps_booking_single_calendar_form" <?php echo esc_attr( $attr ); ?>  class="flatpickr flatpickr-input active"  type="text" placeholder="<?php echo esc_attr__( 'Choose date', 'mwb-bookings-for-woocommerce' ); ?>" readonly="readonly" >
 							<?php
 						} else {
 							?>
-							 <input type="text" name="wps_booking_single_calendar_form" id="wps_booking_single_calendar_form" class="<?php echo esc_attr( $class2 ); ?>" autocomplete="off" placeholder="<?php echo esc_attr( 'Choose date', 'mwb-bookings-for-woocommerce' ); ?>"  required  readonly="readonly" />
+							 <input type="text" name="wps_booking_single_calendar_form" id="wps_booking_single_calendar_form" class="<?php echo esc_attr( $class2 ); ?>" autocomplete="off" placeholder="<?php echo esc_attr__( 'Choose date', 'mwb-bookings-for-woocommerce' ); ?>"  required  readonly="readonly" />
 							<?php
 						}
 
@@ -633,11 +659,11 @@ class Mwb_Bookings_For_Woocommerce_Public {
 					
 						<div class="mbfw-date-picker-section">
 							<label for="mwb-mbfw-booking-from-time"><?php esc_html_e( 'From', 'mwb-bookings-for-woocommerce' ); ?></label>
-							<input id="mwb-mbfw-booking-from-time" name="mwb_mbfw_booking_from_time"   class="flatpickr flatpickr-input active <?php echo esc_attr( $class2 ); ?>"  type="text" placeholder="<?php echo esc_attr( 'Choose date', 'mwb-bookings-for-woocommerce' ); ?>" readonly="readonly">			
+							<input id="mwb-mbfw-booking-from-time" name="mwb_mbfw_booking_from_time"   class="flatpickr flatpickr-input active <?php echo esc_attr( $class2 ); ?>"  type="text" placeholder="<?php echo esc_attr__( 'Choose date', 'mwb-bookings-for-woocommerce' ); ?>" readonly="readonly">			
 						</div>
 						<div class="mbfw-date-picker-section">
 							<label for="mwb-mbfw-booking-to-time"><?php esc_html_e( 'To', 'mwb-bookings-for-woocommerce' ); ?></label>
-							<input id="mwb-mbfw-booking-to-time" name="mwb_mbfw_booking_to_time"   class="flatpickr flatpickr-input active  <?php echo esc_attr( $class2 ); ?>"  type="text" placeholder="<?php echo esc_attr( 'Choose date', 'mwb-bookings-for-woocommerce' ); ?>" readonly="readonly">
+							<input id="mwb-mbfw-booking-to-time" name="mwb_mbfw_booking_to_time"   class="flatpickr flatpickr-input active  <?php echo esc_attr( $class2 ); ?>"  type="text" placeholder="<?php echo esc_attr__( 'Choose date', 'mwb-bookings-for-woocommerce' ); ?>" readonly="readonly">
 						</div>
 					
 					<?php

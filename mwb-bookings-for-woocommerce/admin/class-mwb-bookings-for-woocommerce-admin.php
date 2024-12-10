@@ -1152,7 +1152,19 @@ class Mwb_Bookings_For_Woocommerce_Admin {
 				}
 			}
 
-			wp_set_object_terms( $id, array( 'booking' ), 'product_cat', true );
+			$active_plugins = get_option( 'active_plugins' );
+
+			if ( in_array( 'bookings-for-woocommerce-pro/bookings-for-woocommerce-pro.php', $active_plugins ) ) {
+
+				$wps_wgm_categ_enable = get_option( 'wps_bfwp_general_setting_categ_enable',true );
+				if ( '' == $wps_wgm_categ_enable || 'yes' !== $wps_wgm_categ_enable ) {
+
+					wp_set_object_terms( $id, array( 'booking' ), 'product_cat', true );
+				} 
+			} else {
+				wp_set_object_terms( $id, array( 'booking' ), 'product_cat', true );
+
+			}
 			wp_remove_object_terms( $id, 'uncategorized', 'product_cat' );
 			/**
 			 * Filter is for returning something.
