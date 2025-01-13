@@ -197,7 +197,7 @@ jQuery(document).ready(function($){
                     //     document.getElementById('mwb-mbfw-booking-to-time').value = dateStr;
                     // }
                 }); 
-            }else if ( mwb_mbfw_public_obj.mwb_mbfw_show_date_with_time == 'yes'){
+            } else if ( mwb_mbfw_public_obj.mwb_mbfw_show_date_with_time == 'yes'){
 
                 flatpickr('#'+from_time, {  
                     
@@ -285,8 +285,7 @@ jQuery(document).ready(function($){
                 }); 
 
 
-            }
-             else{
+            } else {
                 flatpickr('#'+from_time, {  
                     disableMobile: true,
                     dateFormat: "d-m-Y",
@@ -625,7 +624,6 @@ jQuery(document).ready(function($){
     }
     if (booking_unit === 'hour') {
 
-        
         if (wps_available_slots != '') {
             
   
@@ -762,10 +760,27 @@ jQuery(document).ready(function($){
                         month = '0' + month;
                     }
                     var temp_date = date + '-' + month + '-' + year + ' ';
+                    var temp_date1 = date + '-' + month + '-' + year ;
+
                     var html = '<div class="wps_cal_timeslot">\n\ ';
-                        
-                    for(let i=0; i< wps_available_slots.length; i++ ) { 
-                        var temp =  wps_available_slots[i]._from + ' - ' + wps_available_slots[i]._to;
+
+                if ( mwb_mbfw_public_obj.is_pro_active != ''){
+                    var daywise_slot = [];
+                    if (temp_date1 in bfwp_public_param.wps_daywise_slot_available) {
+                        daywise_slot =(bfwp_public_param.wps_daywise_slot_available[temp_date1]);
+                    }
+                    
+                    if( Object.keys(daywise_slot).length > 0  ) { 
+                        var date_slots =Object.values(daywise_slot);
+                    } else {
+                        var date_slots = wps_available_slots;
+
+                    }
+                } else {
+                    var date_slots = wps_available_slots;
+                }
+                    for(let i=0; i< date_slots.length; i++ ) { 
+                        var temp =  date_slots[i]._from + ' - ' + date_slots[i]._to;
                         var temp_check = temp_date + temp;
                         if (booking_unavailable.length > 0) {
                             
