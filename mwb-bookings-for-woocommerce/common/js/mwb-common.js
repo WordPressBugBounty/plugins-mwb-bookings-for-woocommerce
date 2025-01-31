@@ -32,7 +32,8 @@
 		if ( $('.mbfw_time_picker').length > 0 ) {
 			$('.mbfw_time_picker').timepicker();
 		}
-        $(document).on('change', 'form.cart :input', function(){
+		
+		$(document).on('change', 'form.cart  :input', function(){
             var form_data = new FormData( $('form.cart')[0] );
 			if ( $('.mwb_mbfw_booking_product_id').val() ) {
 				retrieve_booking_total_ajax( form_data );
@@ -41,7 +42,6 @@
 		
 
 		$(document).on('focusout blur keydown paste focus mousedown mouseover mouseout', '.mwb-mbfw-cart-page-data', function () {
-			
 			
 			var form_data = new FormData( $('form.cart')[0] );
 			if ( $('.mwb_mbfw_booking_product_id').val() ) {
@@ -259,7 +259,7 @@ function retrieve_booking_total_ajax( form_data ) {
 
 						setTimeout(function(){ 
 							$('#alert_msg_client').remove();
-						}, 8000);
+						}, 4000);
 					
 					}
 				}
