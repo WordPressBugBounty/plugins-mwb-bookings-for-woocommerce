@@ -433,6 +433,8 @@ class Mwb_Bookings_For_Woocommerce_Public {
 				'validation_message'           => __( 'Please select valid date!', 'mwb-bookings-for-woocommerce' ),
 				'is_mobile_device'             => $is_mobile_site,
 				'wps_mbfw_day_and_days_upto_togather_enabled' => $wps_mbfw_day_and_days_upto_togather_enabled,
+				'wps_diaplay_time_format' => wps_booking_get_meta_data( get_the_ID(), 'mwb_mbfw_booking_time_fromat', true ),
+
 			)
 		);
 	}
@@ -703,14 +705,29 @@ class Mwb_Bookings_For_Woocommerce_Public {
 				$single_cal_booking_dates = array_key_exists( 'wps_booking_single_calendar_form', $_POST ) ? sanitize_text_field( wp_unslash( $_POST['wps_booking_single_calendar_form'] ) ) : '';
 				if ( 'hour' === wps_booking_get_meta_data( $product_id, 'mwb_mbfw_booking_unit', true ) ) {
 					$booking_dates = explode( ' ', $single_cal_booking_dates );
-
 					if ( ! empty( $booking_dates[0] ) ) {
 
 						if ( isset( $booking_dates[1] ) ) {
+							if ( 'twelve_hour' == wps_booking_get_meta_data( $product_id, 'mwb_mbfw_booking_time_fromat', true ) ) {
+								$date = $booking_dates[0];
+								$start_time = $booking_dates[1] . $booking_dates[2]; // 11:30 PM.
+								$end_time = $booking_dates[4] . $booking_dates[5];   // 12:30 AM.
 
-							$date_time_from = gmdate( $date_format, strtotime( $booking_dates[0] ) ) . ' ' . $booking_dates[1];
-							$date_time_to   = gmdate( $date_format, strtotime( $booking_dates[0] ) ) . ' ' . $booking_dates[3];
+								// Convert start and end times to 24-hour format for comparison.
+								$start_24 = gmdate( 'H:i', strtotime( $start_time ) );
+								$end_24 = gmdate( 'H:i', strtotime( $end_time ) );
 
+								// If end time is smaller, it means it's past midnight, so move to the next day.
+								$end_date = ( $end_24 < $start_24 ) ? gmdate( 'Y-m-d', strtotime( $date . ' +1 day' ) ) : $date;
+
+								// Format final date-time values.
+								$date_time_from = gmdate( $date_format, strtotime( $date ) ) . ' ' . $start_time;
+								$date_time_to = gmdate( $date_format, strtotime( $end_date ) ) . ' ' . $end_time;
+							} else {
+
+								$date_time_from = gmdate( $date_format, strtotime( $booking_dates[0] ) ) . ' ' . $booking_dates[1];
+								$date_time_to   = gmdate( $date_format, strtotime( $booking_dates[0] ) ) . ' ' . $booking_dates[3];
+							}
 						}
 					}
 					$booking_slot             = $single_cal_booking_dates;

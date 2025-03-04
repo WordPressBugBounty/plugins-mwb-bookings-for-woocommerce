@@ -114,7 +114,7 @@ if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
 								<a class="button" href="
 									<?php
 									echo esc_attr( get_site_url() );
-									esc_html( '/my-account/view-order/' );
+									echo esc_html( '/my-account/view-order/' );
 									echo esc_attr( $value );
 									?>
 								"><?php esc_html_e( 'View', 'mwb-bookings-for-woocommerce' ); ?>
@@ -163,7 +163,7 @@ if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
 								<a class="button" href="
 								<?php
 								echo esc_attr( get_site_url() );
-								esc_html( '/my-account/view-order/' );
+								echo esc_html( '/my-account/view-order/' );
 								echo esc_attr( $value );
 								?>
 								"><?php esc_html_e( 'View', 'mwb-bookings-for-woocommerce' ); ?>
@@ -216,7 +216,7 @@ if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
 								<a class="button" href="
 									<?php
 									echo esc_attr( get_site_url() );
-									esc_html( '/my-account/view-order/' );
+									echo esc_html( '/my-account/view-order/' );
 									echo esc_attr( $value );
 									?>
 									"><?php esc_html_e( 'View', 'mwb-bookings-for-woocommerce' ); ?>
@@ -247,7 +247,8 @@ if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
 				}
 			}
 		}
-	} else { ?>
+	} else {
+		?>
 		<tr>
 		<td colspan="5"><?php esc_html_e( 'No bookings have been purchased yet.', 'mwb-bookings-for-woocommerce' ); ?></td></tr>
 		<?php
