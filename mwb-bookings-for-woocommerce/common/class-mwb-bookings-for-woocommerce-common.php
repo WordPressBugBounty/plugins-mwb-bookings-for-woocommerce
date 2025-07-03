@@ -287,8 +287,8 @@ class Mwb_Bookings_For_Woocommerce_Common {
 		$cart_data = $cart_object->get_cart();
 		foreach ( $cart_data as $cart ) {
 			 if (!empty($cart['booking_price'])) {
-            $cart['data']->set_price($cart['booking_price']);
-        }
+				$cart['data']->set_price($cart['booking_price']);
+			}
 			if ( 'mwb_booking' === $cart['data']->get_type() && isset( $cart['mwb_mbfw_booking_values'] ) ) {
 				$new_price        = (float) $cart['data']->get_price();
 				$base_price       = 0;
@@ -391,12 +391,10 @@ class Mwb_Bookings_For_Woocommerce_Common {
 				 */
 
 				$unit_price = apply_filters( 'mwb_mbfw_vary_product_unit_price', ( ! empty( $unit_price ) ? (float) $unit_price : 0 ), $custom_cart_data, $cart_object, $cart );
-
-				if ($unit_price !== $new_price) {
-					$unit_price = (float) $unit_price * (float) $unit;
-
-				}
-
+				// Price calculation logic
+				if ( 'yes' == $hide_general_cost ) {
+					$unit_price = '';
+				}	
 				// adding unit cost.
 				if ( 'yes' === wps_booking_get_meta_data( $cart['product_id'], 'mwb_mbfw_is_booking_unit_cost_per_people', true ) ) {
 					$new_price = (float) $unit_price * (int) $people_number;
