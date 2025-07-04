@@ -6,7 +6,7 @@ Requires at least: 5.5.0
 Tested up to: 6.8.1
 WC requires at least: 6.5.0
 WC tested up to: 9.9.5
-Stable tag: 3.5.1
+Stable tag: 3.5.2
 Requires PHP: 7.2
 License: GNU General Public License v3.0 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -291,6 +291,9 @@ Check out [**WooCommerce Bookings knowledge base**](https://support.wpswings.com
 
 == Changelog ==
 
+= 3.5.2 - Released on 04 July 2025 =
+* Fix: Cart page cost calculation issue fix.
+
 = 3.5.1 - Released on 03 July 2025 =
 * Fix: Fix cost calculation issue
 * Fix: Fixed booking date display on cart page 
@@ -489,7 +492,5 @@ Check out [**WooCommerce Bookings knowledge base**](https://support.wpswings.com
 
 == Upgrade Notice ==
 
-= 3.5.1 - Released on 03 July 2025 =
-* Fix: Fix cost calculation issue.
-* Fix: Fixed booking date display on cart page. 
-* New: Latest Compatibility with WP [6.8.1] and WC [9.9.5].
+= 3.5.2 - Released on 04 July 2025 =
+* Fix: Cart page cost calculation issue fix.
