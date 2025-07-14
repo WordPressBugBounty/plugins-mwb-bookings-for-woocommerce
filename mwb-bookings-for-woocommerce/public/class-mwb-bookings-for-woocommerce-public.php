@@ -124,7 +124,8 @@ class Mwb_Bookings_For_Woocommerce_Public {
 		$wps_mbfw_day_and_days_upto_togather_enabled = '';
 		$booking_slot_array_max_limit                = array();
 		// Get the number of days in the current month.
-		$num_days         = cal_days_in_month( CAL_GREGORIAN, $current_month, $current_year );
+		$num_days        = (int) (new DateTime("$current_year-$current_month-01"))->format('t');
+
 		$today_date_check = sprintf( '%04d-%02d-%02d', $current_year, $current_month, $currentday );
 		// Loop through the days of the current month and add them to the array.
 		for ( $day = $currentday; $day <= $num_days; $day++ ) {
@@ -140,7 +141,8 @@ class Mwb_Bookings_For_Woocommerce_Public {
 			++$current_month;
 
 		}
-		$num_days_next_month = cal_days_in_month( CAL_GREGORIAN, $current_month, $current_year );
+		// Get the number of days in the next month.
+		$num_days_next_month = (int) (new DateTime("$current_year-$current_month-01"))->format('t');
 
 		// Initialize an empty array to store the dates.
 
@@ -458,7 +460,7 @@ class Mwb_Bookings_For_Woocommerce_Public {
 						$shortcode_name = $shortcode[2];
 
 						// Check for your custom shortcode: [bookable_booking_calendar].
-						if ( $shortcode_name === 'bookable_booking_calendar' ) {
+						if ( 'bookable_booking_calendar' === $shortcode_name ) {
 							$attrs = shortcode_parse_atts( $shortcode[3] );
 
 							if ( isset( $attrs['id'] ) ) {
@@ -1308,7 +1310,7 @@ class Mwb_Bookings_For_Woocommerce_Public {
 		}
 	}
 	/**
-	 * function to add shortcode.
+	 * Function to add shortcode.
 	 */
 	public function mwb_mbfw_shortcode_search_page() {
 		add_shortcode('bookable_booking_calendar', array( $this,'render_bookable_booking_calendar_shortcode' ) );
@@ -1317,6 +1319,10 @@ class Mwb_Bookings_For_Woocommerce_Public {
 
 	/**
 	 * Function to rendar short code.
+	 * 
+	 * @param [type] $atts is the order placed.
+	 * @return void
+	 * 
 	 */
 	public function render_bookable_booking_calendar_shortcode($atts) {
 		$atts = shortcode_atts([
@@ -1337,6 +1343,9 @@ class Mwb_Bookings_For_Woocommerce_Public {
 		return ob_get_clean();
 	}
 
+	/**
+	 * Function to add to cart global.
+	 */
 	public function mwb_handle_booking_add_to_cart() {
 		if (isset($_GET['add-booking-to-cart']) && $_GET['add-booking-to-cart'] == '1') {
 			$product_id = $this->create_private_booking_product();
@@ -1363,6 +1372,11 @@ class Mwb_Bookings_For_Woocommerce_Public {
 
 	/**
 	 * Function to add order items for global calendar booking.
+	 * 
+	 * @param [type] $item_id is the order placed.
+	 * @param [type] $values is the order placed.
+	 * @param [type] $cart_item_key is the order placed.
+	 * @return void
 	 */
 	public function mwb_add_global_order_item_meta( $item_id, $values, $cart_item_key ) {
 		if ( isset( $values['booking_date'] ) ) {
@@ -1371,7 +1385,7 @@ class Mwb_Bookings_For_Woocommerce_Public {
 	}
 
 	/**
-	 * function to create booking product.
+	 * Function to create booking product.
 	 */
 	public function create_private_booking_product() {
 		$existing = get_posts([

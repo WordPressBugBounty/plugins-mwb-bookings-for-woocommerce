@@ -391,7 +391,7 @@ class Mwb_Bookings_For_Woocommerce_Common {
 				 */
 
 				$unit_price = apply_filters( 'mwb_mbfw_vary_product_unit_price', ( ! empty( $unit_price ) ? (float) $unit_price : 0 ), $custom_cart_data, $cart_object, $cart );
-				// Price calculation logic
+				// Price calculation logic.
 				if ( 'yes' == $hide_general_cost ) {
 					$unit_price = '';
 				}	
@@ -1296,6 +1296,97 @@ class Mwb_Bookings_For_Woocommerce_Common {
 				break;
 			}
 		}
+	}
+
+	//EXPORT code.
+	/**
+	 * Export booking data as iCal.
+	 *
+	 * @return void
+	 */
+	public function wps_bfw_export_booking_data() {
+
+
+		if ('1' ==(get_query_var('export_airbnb_ical')) && !empty(get_query_var('calendar_id'))) {
+			// 
+		$post_id = get_query_var('calendar_id');
+			if (!get_post($post_id)) {
+				status_header(404);
+				exit('Invalid calendar ID');
+			}
+
+			// Set iCal headers.
+			header('Content-Type: text/calendar; charset=utf-8');
+			header("Content-Disposition: inline; filename=calendar-$post_id.ics");
+
+			echo "BEGIN:VCALENDAR\r\n";
+			echo "VERSION:2.0\r\n";
+			echo "PRODID:-//YourSite//WooCommerce Airbnb Export//EN\r\n";
+
+			// 🔄 Fetch unavailable dates for this specific post.
+			$unavailable_dates = get_post_meta($post_id, '_non_available_days', true);
+			if ( empty($unavailable_dates)) {
+				$unavailable_dates = '';
+			}
+			// echo $unavailable_dates;
+
+			foreach ($unavailable_dates as $date) {
+				$start = date('Ymd', strtotime($date));
+				$end   = date('Ymd', strtotime($date . ' +1 day'));
+
+				echo "BEGIN:VEVENT\r\n";
+				echo "SUMMARY:Booking Unavailable\r\n";
+				echo "DTSTART;VALUE=DATE:$start\r\n";
+				echo "DTEND;VALUE=DATE:$end\r\n";
+				echo "END:VEVENT\r\n";
+			}
+
+			echo "END:VCALENDAR\r\n";
+			exit;
+		}
+	}
+
+	/**
+	 * Add rewrite rules for exporting data.
+	 *
+	 * @return void
+	 */
+	public function wps_rewite_rules_for_export_data() {
+			
+
+		add_rewrite_rule(
+			'^wps_global_calendar/([0-9]+)\.ics$',
+			'index.php?export_airbnb_ical=1&calendar_id=$matches[1]',
+			'bottom'
+		);
+	flush_rewrite_rules();
+	}
+	/**
+	 * Add query vars for iCal data.
+	 *
+	 * @param array $vars existing query vars.
+	 * @return array
+	 */
+	public function wps_bfw_add_query_vars_for_ical_data($vars) {
+		
+		$vars[] = 'export_airbnb_ical';
+		$vars[] = 'calendar_id';
+		return $vars;
+	}
+
+	/**
+	 * Change query vars for iCal attachment.
+	 *
+	 * @param array $query_vars existing query vars.
+	 * @return array
+	 */
+	public function wps_bfw_change_query_vars_for_ics_attachment($query_vars) {
+		if (isset($query_vars['attachment']) && preg_match('/^([0-9]+)\.ics$/', $query_vars['attachment'], $m)) {
+			$query_vars['export_airbnb_ical'] = 1;
+			$query_vars['calendar_id'] = $m[1];
+			unset($query_vars['attachment']);
+		}
+		return $query_vars;
 	}
 
 }
