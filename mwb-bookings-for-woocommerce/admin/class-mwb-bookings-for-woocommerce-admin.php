@@ -935,7 +935,20 @@ class Mwb_Bookings_For_Woocommerce_Admin {
 				)
 			);
 
+			do_action( 'mwb_mbfw_booking_costs_meta_section_add_fields_before', get_the_ID() );
+			
+			woocommerce_wp_checkbox(
+				array(
+					'id'          => 'mwb_cost_date_range_notice',
+					'value'       => wps_booking_get_meta_data( get_the_ID(), 'mwb_cost_date_range_notice', true ),
+					'label'       => __( 'Show notice of cost range on product page', 'mwb-bookings-for-woocommerce' ),
+					'description' => __( 'Enabling this Show notice of cost range on product page.', 'mwb-bookings-for-woocommerce' ),
+					'desc_tip'    => true,
+				)
+			);
+	
 			?>
+
 			<p class="mwb-mbfw-additional-notice">
 				<?php
 				printf(
@@ -1222,8 +1235,9 @@ class Mwb_Bookings_For_Woocommerce_Admin {
 				'mwb_mbfw_is_booking_unit_cost_per_people' => array_key_exists( 'mwb_mbfw_is_booking_unit_cost_per_people', $_POST ) ? sanitize_text_field( wp_unslash( $_POST['mwb_mbfw_is_booking_unit_cost_per_people'] ) ) : '',
 				'mwb_mbfw_booking_base_cost'               => array_key_exists( 'mwb_mbfw_booking_base_cost', $_POST ) ? sanitize_text_field( wp_unslash( $_POST['mwb_mbfw_booking_base_cost'] ) ) : '',
 				'mwb_mbfw_booking_base_cost_hide'          => array_key_exists( 'mwb_mbfw_booking_base_cost_hide', $_POST ) ? sanitize_text_field( wp_unslash( $_POST['mwb_mbfw_booking_base_cost_hide'] ) ) : '',
-				'mwb_mbfw_booking_general_cost_hide'          => array_key_exists( 'mwb_mbfw_booking_general_cost_hide', $_POST ) ? sanitize_text_field( wp_unslash( $_POST['mwb_mbfw_booking_general_cost_hide'] ) ) : '',
+				'mwb_mbfw_booking_general_cost_hide'       => array_key_exists( 'mwb_mbfw_booking_general_cost_hide', $_POST ) ? sanitize_text_field( wp_unslash( $_POST['mwb_mbfw_booking_general_cost_hide'] ) ) : '',
 				'mwb_mbfw_is_booking_base_cost_per_people' => array_key_exists( 'mwb_mbfw_is_booking_base_cost_per_people', $_POST ) ? sanitize_text_field( wp_unslash( $_POST['mwb_mbfw_is_booking_base_cost_per_people'] ) ) : '',
+				'mwb_cost_date_range_notice'               => array_key_exists( 'mwb_cost_date_range_notice', $_POST ) ? sanitize_text_field( wp_unslash( $_POST['mwb_cost_date_range_notice'] ) ) : '',
 				'mwb_mbfw_is_people_option'                => array_key_exists( 'mwb_mbfw_is_people_option', $_POST ) ? sanitize_text_field( wp_unslash( $_POST['mwb_mbfw_is_people_option'] ) ) : '',
 				'mwb_mbfw_minimum_people_per_booking'      => array_key_exists( 'mwb_mbfw_minimum_people_per_booking', $_POST ) ? sanitize_text_field( wp_unslash( $_POST['mwb_mbfw_minimum_people_per_booking'] ) ) : '',
 				'mwb_mbfw_minimum_no_days_booking'         => array_key_exists( 'mwb_mbfw_minimum_no_days_booking', $_POST ) ? sanitize_text_field( wp_unslash( $_POST['mwb_mbfw_minimum_no_days_booking'] ) ) : '',
@@ -1247,7 +1261,7 @@ class Mwb_Bookings_For_Woocommerce_Admin {
 				'wps_mbfw_night_slots_enabled'             => array_key_exists( 'wps_mbfw_night_slots_enabled', $_POST ) ? sanitize_text_field( wp_unslash( $_POST['wps_mbfw_night_slots_enabled'] ) ) : '',
 				'mwb_mbfw_booking_time_fromat'             => array_key_exists( 'mwb_mbfw_booking_time_fromat', $_POST ) ? sanitize_text_field( wp_unslash( $_POST['mwb_mbfw_booking_time_fromat'] ) ) : '',
 				'wps_mbfw_day_and_days_upto_togather_enabled' => array_key_exists( 'wps_mbfw_day_and_days_upto_togather_enabled', $_POST ) ? sanitize_text_field( wp_unslash( $_POST['wps_mbfw_day_and_days_upto_togather_enabled'] ) ) : '',
-				'mwb_mbfw_booking_hide_or_diable_slot'             => array_key_exists( 'mwb_mbfw_booking_hide_or_diable_slot', $_POST ) ? sanitize_text_field( wp_unslash( $_POST['mwb_mbfw_booking_hide_or_diable_slot'] ) ) : '',
+				'mwb_mbfw_booking_hide_or_diable_slot'        => array_key_exists( 'mwb_mbfw_booking_hide_or_diable_slot', $_POST ) ? sanitize_text_field( wp_unslash( $_POST['mwb_mbfw_booking_hide_or_diable_slot'] ) ) : '',
 
 			);
 
@@ -1980,14 +1994,14 @@ class Mwb_Bookings_For_Woocommerce_Admin {
  
 					$date_array_from = explode( ' | ', $date_time_from );
 					$date_array_to   = explode( ' | ', $date_time_to );
-				
-					if ($booking_type == 'single_cal'  && $booking_unit == 'hour' ){
-						
+
+					if ( 'single_cal' == $booking_type && $booking_unit == 'hour' ){
+
 						$time_range = $date_time_from;
 					
 						list($date_time_from, $date_time_to) = explode(' - ', $time_range);
  
-						// Assume this is used inside a loop and $order, $item, $status exist
+						// Assume this is used inside a loop and $order, $item, $status exist.
 						$all_events[] = array(
 							'title' => '#Order Id: ' . $order->get_id() . ' ' . $item['name'],
 							'start' => gmdate('Y-m-d', strtotime($date_time_from)) . 'T' . gmdate('H:i', strtotime($date_time_from)),
@@ -2219,11 +2233,11 @@ class Mwb_Bookings_For_Woocommerce_Admin {
 	 * @return array
 	 */
 	public function wps_fetch_calendar_languages() {
+		$array = ['az'     => __( 'Azerbaijani', 'mwb-bookings-for-woocommerce' ),];
 		return array(
 			''       => __( 'Select', 'mwb-bookings-for-woocommerce' ),
 			'default' => __( 'Default (English)', 'mwb-bookings-for-woocommerce' ),
 			'at'     => __( 'Austria', 'mwb-bookings-for-woocommerce' ),
-			'az'     => __( 'Azerbaijani', 'mwb-bookings-for-woocommerce' ),
 			'be'     => __( 'Belarusian', 'mwb-bookings-for-woocommerce' ),
 			'bg'     => __( 'Bulgarian', 'mwb-bookings-for-woocommerce' ),
 			'bn'     => __( 'Bengali', 'mwb-bookings-for-woocommerce' ),
@@ -2320,7 +2334,7 @@ class Mwb_Bookings_For_Woocommerce_Admin {
 				'airbnb_ical_export_link',
 				__('Airbnb iCal Export Link', 'mwb-bookings-for-woocommerce' ),
 				array( $this, 'render_airbnb_ical_export_link_meta_box' ),
-				'wps_global_booking', // Your custom post type slug
+				'wps_global_booking', // Your custom post type slug.
 				'normal',
 				'low'
 			);
@@ -2356,6 +2370,8 @@ class Mwb_Bookings_For_Woocommerce_Admin {
 
 		echo '<label><strong>'.esc_html__('AirBNB ical link', 'mwb-bookings-for-woocommerce') . ':</strong></label><br>';
 		echo '<input type="text" id="airbnb_ical_link" name="airbnb_ical_link" style="width:100%" value="' . esc_attr($airbnb_ical_link) . '"><br><br>';
+
+		do_action('wps_booking_global_calendar_setting_meta_box', $post);
 
 	}
 
@@ -2420,6 +2436,12 @@ class Mwb_Bookings_For_Woocommerce_Admin {
 			$airbnb_ical_link = sanitize_text_field( wp_unslash($_POST['airbnb_ical_link'] ) );
 			update_post_meta($post_id, '_airbnb_ical_link', $airbnb_ical_link);
 		}
+
+		/**
+		 * This action is for saving global booking calendar settings.
+		 */
+		do_action('wps_booking_global_calendar_setting_meta_box_save', $post_id);
+
 		// Re-generate and save iCal.
 		$available_days = get_post_meta($post_id, '_available_days', true) ?get_post_meta($post_id, '_available_days', true): [];
 		$non_available_days = get_post_meta($post_id, '_non_available_days', true) ? get_post_meta($post_id, '_non_available_days', true): [];
@@ -2509,7 +2531,7 @@ class Mwb_Bookings_For_Woocommerce_Admin {
 			$shortcode = '[bookable_booking_calendar id=' . esc_html($post_id) . ']';
 			echo '<div style="display:flex; align-items:center; gap:5px;">';
 			echo '<code id="shortcode-' . esc_attr($post_id) . '">' . esc_html($shortcode) . '</code>';
-			echo '<button type="button" class="button" onclick="navigator.clipboard.writeText(document.getElementById(\'shortcode-' . esc_attr($post_id) . '\').innerText)">'.__('Copy', 'mwb-bookings-for-woocommerce') .'</button>';
+			echo '<button type="button" class="button" onclick="navigator.clipboard.writeText(document.getElementById(\'shortcode-' . esc_attr($post_id) . '\').innerText)">'.esc_html__('Copy', 'mwb-bookings-for-woocommerce') .'</button>';
 			echo '</div>';
 		}
 	}
@@ -2539,6 +2561,7 @@ class Mwb_Bookings_For_Woocommerce_Admin {
 				'interval' => 5 * 60,
 				'display'  => __( 'Once every 5 minutes', 'mwb-bookings-for-woocommerce' ),
 			);
+		$schedules = apply_filters( 'wps_sync_calendars_schedules', $schedules );
 
 		return $schedules;
 	}
@@ -2553,6 +2576,8 @@ class Mwb_Bookings_For_Woocommerce_Admin {
 		if ( ! wp_next_scheduled( 'wps_sync_airbnb_calendars' ) ) {
 			wp_schedule_event( time()+(60*5), 'fetch_airbnb_unavailble_dates', 'wps_sync_airbnb_calendars' );
 		}
+
+		do_action( 'wps_sync_calendars_schedule_event' );
 
 	}
 	
@@ -2584,7 +2609,7 @@ class Mwb_Bookings_For_Woocommerce_Admin {
 			]
 		]);
 
-	if ( ! empty( $calendar_posts ) && is_array( $calendar_posts ) ) {
+		if ( ! empty( $calendar_posts ) && is_array( $calendar_posts ) ) {
 			foreach ( $calendar_posts as $post_id ) {
 				$ical_link = get_post_meta( $post_id, '_airbnb_ical_link', true );
 				if ( ! empty( $ical_link ) ) {
@@ -2627,6 +2652,10 @@ class Mwb_Bookings_For_Woocommerce_Admin {
 
 					// 🧼 Optional: remove duplicates
 					$unavailable_dates = array_values(array_unique($unavailable_dates));
+
+					$existing_unavailable_dates = get_post_meta( $post_id, '_non_available_days', true );
+
+					$unavailable_dates = array_values( array_unique( array_merge( (array) $existing_unavailable_dates, $unavailable_dates ) ) );
 				
 					// 💾 Save to WooCommerce post
 					update_post_meta( $post_id, '_non_available_days', $unavailable_dates );

@@ -97,6 +97,9 @@ class Mwb_Bookings_For_Woocommerce_Public {
 		wp_enqueue_script( 'flatpicker_js', MWB_BOOKINGS_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/flatpickr/dist/flatpickr.min.js', array( 'jquery' ), time(), true );
 
 		wp_enqueue_script( 'wps-flatpickr-locale', MWB_BOOKINGS_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/flatpickr/dist/l10n/' . $wps_lang . '.js', array( 'flatpicker_js' ), time(), true );
+		
+	
+		
 
 		wp_enqueue_script( $this->plugin_name . 'public', MWB_BOOKINGS_FOR_WOOCOMMERCE_DIR_URL . 'public/js/mwb-public.js', array( 'jquery', 'flatpicker_js', 'wps-flatpickr-locale' ), time(), true );
 		$daily_start_time                            = '';
@@ -503,7 +506,7 @@ class Mwb_Bookings_For_Woocommerce_Public {
 					];
 				}
 
-				$default_price = get_post_meta($post_id, '_booking_default_price', true) ?: 0;
+				$default_price = get_post_meta($post_id, '_booking_default_price', true) ? get_post_meta($post_id, '_booking_default_price', true): 0;
 				wp_localize_script(
 					'booking-calendar-js', 'bookingCalendarData', [
 					'postId'           => ($post_id),
@@ -1321,7 +1324,7 @@ class Mwb_Bookings_For_Woocommerce_Public {
 	 * Function to rendar short code.
 	 * 
 	 * @param [type] $atts is the order placed.
-	 * @return void
+	 * @return string
 	 * 
 	 */
 	public function render_bookable_booking_calendar_shortcode($atts) {
@@ -1330,7 +1333,7 @@ class Mwb_Bookings_For_Woocommerce_Public {
 		], $atts);
 
 		$post_id = (int) $atts['id'];
-		if (!$post_id || get_post_type($post_id) !== 'wps_global_booking') {
+		if (!$post_id || 'wps_global_booking' !== get_post_type( $post_id)) {
 			return '<p>Invalid Booking Calendar ID.</p>';
 		}
 

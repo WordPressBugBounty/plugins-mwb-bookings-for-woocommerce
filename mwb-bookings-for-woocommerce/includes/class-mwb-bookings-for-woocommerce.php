@@ -76,7 +76,7 @@ class Mwb_Bookings_For_Woocommerce {
 			$this->version = MWB_BOOKINGS_FOR_WOOCOMMERCE_VERSION;
 		} else {
 
-			$this->version = '3.6.0';
+			$this->version = '3.7.0';
 		}
 
 		$this->plugin_name = 'bookings-for-woocommerce';
@@ -316,7 +316,7 @@ class Mwb_Bookings_For_Woocommerce {
 	}
 
 	/**
-	 * Register all of the hooks related to the public-facing functionality
+	 * Register all of the hooks related to the public-facing functionality.
 	 * of the plugin.
 	 *
 	 * @since 2.0.0
