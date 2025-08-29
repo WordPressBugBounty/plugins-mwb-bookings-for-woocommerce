@@ -15,7 +15,7 @@
  * Plugin Name:       Bookings For WooCommerce
  * Plugin URI:        https://wordpress.org/plugins/mwb-bookings-for-woocommerce/
  * Description:        <code><strong>Bookings for WooCommerce</strong></code> enable store owners to create an online booking system that allows them to turn their products into Booking Solutions.<a href="https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-bookings&utm_medium=bookings-org-backend&utm_campaign=official" target="_blank"> Elevate your e-commerce store by exploring more on <strong> WP Swings </strong></a>.
- * Version:           3.7.0
+ * Version:           3.8.0
  * Author:            WP Swings
  * Author URI:        https://wpswings.com/?utm_source=wpswings-bookings-official&utm_medium=bookings-org-page&utm_campaign=official
  * Text Domain:       mwb-bookings-for-woocommerce
@@ -25,9 +25,9 @@
  * Requires at least:    5.5.0
  * Tested up to:         6.8.2
  * WC requires at least: 6.8.1
- * WC tested up to:      10.0.4
+ * WC tested up to:      10.1.1
  * Requires PHP:         7.2
- * Stable tag:           3.7.0
+ * Stable tag:           3.8.0
  *
  * License:           GNU General Public License v3.0
  * License URI:       http://www.gnu.org/licenses/gpl-3.0.html
@@ -47,7 +47,7 @@ if ( in_array( 'woocommerce/woocommerce.php', get_option( 'active_plugins', arra
 	 * @since 2.0.0
 	 */
 	function define_mwb_bookings_for_woocommerce_constants() {
-		mwb_bookings_for_woocommerce_constants( 'MWB_BOOKINGS_FOR_WOOCOMMERCE_VERSION', '3.7.0' );
+		mwb_bookings_for_woocommerce_constants( 'MWB_BOOKINGS_FOR_WOOCOMMERCE_VERSION', '3.8.0' );
 		mwb_bookings_for_woocommerce_constants( 'MWB_BOOKINGS_FOR_WOOCOMMERCE_DIR_PATH', plugin_dir_path( __FILE__ ) );
 		mwb_bookings_for_woocommerce_constants( 'MWB_BOOKINGS_FOR_WOOCOMMERCE_DIR_URL', plugin_dir_url( __FILE__ ) );
 		mwb_bookings_for_woocommerce_constants( 'MWB_BOOKINGS_FOR_WOOCOMMERCE_SERVER_URL', 'https://wpswings.com' );
@@ -163,8 +163,6 @@ if ( in_array( 'woocommerce/woocommerce.php', get_option( 'active_plugins', arra
 	/**
 	 * Function to render booking calendar block.
 	 *
-	 * @param array $attributes Block attributes.
-	 * @return string
 	 */
 	function wps_mbfw_wpswings_register_booking_calendar_block() {
     wp_register_script(
@@ -428,6 +426,9 @@ function mwb_mbfw_show_admin_notices() {
 			if ( class_exists( '\Automattic\WooCommerce\Utilities\FeaturesUtil' ) ) {
 				\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'cart_checkout_blocks', __FILE__, true );
 			}
+			if ( class_exists( FeaturesUtil::class ) ) {
+				FeaturesUtil::declare_compatibility( 'product_block_editor', plugin_basename( __FILE__ ), true );
+			}
+
 		}
 	);
-
