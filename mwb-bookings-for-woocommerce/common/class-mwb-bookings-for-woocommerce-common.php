@@ -110,7 +110,6 @@ class Mwb_Bookings_For_Woocommerce_Common {
 				if ( 'wp-swings_page_mwb_bookings_for_woocommerce_menu' == $screen->id ) {
 					wp_enqueue_script( 'mwb-mbfw-time-picker-js', MWB_BOOKINGS_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/user-friendly-time-picker/dist/js/timepicker.min.js', array( 'jquery' ), $this->version, true );
 				}
-				// wp_enqueue_script( 'moment-js', MWB_BOOKINGS_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/moment-js/moment.min.js', array( 'jquery' ), $this->version, true );
 				wp_enqueue_script( 'moment-locale-js', MWB_BOOKINGS_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/moment-js/moment-locale-js.js', array( 'jquery', 'wp-date' ), $this->version, true );
 				wp_enqueue_script( 'datetime-picker-js', MWB_BOOKINGS_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/datetimepicker-master/build/jquery.datetimepicker.full.js', array( 'jquery', 'wp-date' ), $this->version, true );
 				wp_enqueue_script( 'jquery-ui-core' );
@@ -119,11 +118,57 @@ class Mwb_Bookings_For_Woocommerce_Common {
 		} else {
 			wp_enqueue_script( 'jquery-ui-datepicker' );
 				wp_enqueue_script( 'mwb-mbfw-time-picker-js', MWB_BOOKINGS_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/user-friendly-time-picker/dist/js/timepicker.min.js', array( 'jquery' ), $this->version, true );
-				// wp_enqueue_script( 'moment-js', MWB_BOOKINGS_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/moment-js/moment.min.js', array( 'jquery' ), $this->version, true );
 				wp_enqueue_script( 'moment-locale-js', MWB_BOOKINGS_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/moment-js/moment-locale-js.js', array( 'jquery', 'wp-date' ), $this->version, true );
 				wp_enqueue_script( 'datetime-picker-js', MWB_BOOKINGS_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/datetimepicker-master/build/jquery.datetimepicker.full.js', array( 'jquery', 'wp-date' ), $this->version, true );
 				wp_enqueue_script( 'jquery-ui-core' );
 				wp_enqueue_script( 'mwb-bfwp-multi-date-picker-js', MWB_BOOKINGS_FOR_WOOCOMMERCE_DIR_URL . 'package/lib/multiple-datepicker/jquery-ui.multidatespicker.js', array( 'jquery-ui-core', 'jquery', 'jquery-ui-datepicker' ), time(), true );
+		}
+		$asset_file = include MWB_BOOKINGS_FOR_WOOCOMMERCE_DIR_PATH . 'build/index.asset.php';
+
+		wp_enqueue_script(
+			'mwb-bookings-build',
+			MWB_BOOKINGS_FOR_WOOCOMMERCE_DIR_URL.'build/index.js',
+			$asset_file['dependencies'],
+			$asset_file['version'],
+			true
+		);
+
+		// 🔹 Get WooCommerce order statuses.
+		$order_statuses = wc_get_order_statuses();
+
+		// 🔹 Localize data for React.
+		wp_localize_script(
+			'mwb-bookings-build', // MUST match enqueue handle.
+			'wpsBfwData',         // JS global variable.
+			[
+				'orderStatuses' => $order_statuses,
+				'shopPageUrl'   => get_permalink( wc_get_page_id( 'shop' ) ),
+				'nobookingmsg'  => __( 'Looks Like you have no bookings yet.', 'mwb-bookings-for-woocommerce' ),
+				'dashboardMsgl1'     => __( 'Manage your bookings effortlessly.','mwb-bookings-for-woocommerce' ),
+				'dashboardMsgl2' => __('View, Cancel or Add your bookings to Google calendar with ease.', 'mwb-bookings-for-woocommerce' ),
+				'noBookingFilterMsg' => __( 'No order found with the following status.', 'mwb-bookings-for-woocommerce' ),
+				'addToCalendarText' => __( 'Add to Google Calendar', 'mwb-bookings-for-woocommerce' ),
+				'viewOrderText' => __( 'View Order', 'mwb-bookings-for-woocommerce' ),
+				'cancelBookingText' => __( 'Cancel Booking', 'mwb-bookings-for-woocommerce' ),
+				'orderIdText' => __( 'Order ID', 'mwb-bookings-for-woocommerce' ),
+				'statusText' => __( 'Status', 'mwb-bookings-for-woocommerce' ),
+				'paymentMethodText' => __( 'Payment Method', 'mwb-bookings-for-woocommerce' ),
+				'bookNowText' => __( 'Book now', 'mwb-bookings-for-woocommerce' ),
+				'loadMoreText' => __( 'Load more', 'mwb-bookings-for-woocommerce' ),
+				'listText' => __( 'List', 'mwb-bookings-for-woocommerce' ),
+				'gridText' => __( 'Grid', 'mwb-bookings-for-woocommerce' ),
+				'allOrdersText' => __( 'All orders', 'mwb-bookings-for-woocommerce' ),
+				
+			]
+		);
+
+		if ( file_exists( plugin_dir_path( __FILE__ ) . 'build/index.css' ) ) {
+			wp_enqueue_style(
+				'mwb-bookings-style',
+				MWB_BOOKINGS_FOR_WOOCOMMERCE_DIR_URL.'build/index.css',
+				[],
+				$asset_file['version']
+			);
 		}
 	}
 
@@ -746,7 +791,18 @@ class Mwb_Bookings_For_Woocommerce_Common {
 				<div class="mbfw-total-listing-single-page__wrapper">
 					<div class="mbfw-total-listing-single-page">
 						<?php
-						echo wp_kses_post( $title );
+						if ( 'Additional Costs' == $title ) {
+							if ( get_post_meta( $product_id, 'mwb_mbfw_show_additional_cost_details', true ) ){
+								
+
+							echo '<strong>'.wp_kses_post( $title ).'</strong>';
+							} else {
+								echo wp_kses_post( $title );
+							}
+						} else {
+							echo wp_kses_post( $title );
+						}
+							
 						if ( 'General Cost' == $title ) {
 							?>
 							<strong>( 
@@ -775,11 +831,18 @@ class Mwb_Bookings_For_Woocommerce_Common {
 							)</strong>
 							<?php
 						}
+						if ( 'Additional Costs' == $title ) {
+							if ( get_post_meta( $product_id, 'mwb_mbfw_show_additional_cost_details', true ) ){
+								$this->mwb_mbfw_show_additional_booking_cost_details_on_form( $product_id );
+
+							}
+						}
+							
 						?>
 					</div>
-					<div class="mbfw-total-listing-single-page">
+					<div class="mbfw-total-listing-single-page <?php if ( 'Additional Costs' == $title ) {echo 'addditional_cost';};?>">
 
-						<?php
+						<?php 
 						if ( 'General Cost' == $title ) {
 							echo wp_kses_post( wc_price( $price ) ) . ' x ' . wp_kses_post( $quantity ); // phpcs:ignore WordPress
 
@@ -810,6 +873,7 @@ class Mwb_Bookings_For_Woocommerce_Common {
 			do_action( 'mbfw_show_booking_policy' );
 			?>
 		</div>
+		
 		<?php
 	}
 
@@ -890,7 +954,7 @@ class Mwb_Bookings_For_Woocommerce_Common {
 						$services_cost += $service_count * $service_price * $people_number;
 
 					} else {
-						$services_cost += $service_count * $service_price;
+						$services_cost += (float)$service_count * (float)$service_price;
 
 					}
 				}
@@ -1409,19 +1473,26 @@ class Mwb_Bookings_For_Woocommerce_Common {
 			if ( empty($unavailable_dates)) {
 				$unavailable_dates = '';
 			}
+			$i=0;
+			$site_domain = parse_url( home_url(), PHP_URL_HOST );
 
 			foreach ($unavailable_dates as $date) {
 				$start = gmdate('Ymd', strtotime($date));
 				$end   = gmdate('Ymd', strtotime($date . ' +1 day'));
+				$uid   = $start . '-' . ($i+1).'@' . $site_domain; // Unique ID per event.
+				$dtstamp = gmdate('Ymd\THis\Z'); // Timestamp in UTC.
 
-				echo "BEGIN:VEVENT\r\n";// phpcs:ignore
-				echo "SUMMARY:Booking Unavailable\r\n";// phpcs:ignore
-				echo "DTSTART;VALUE=DATE:$start\r\n";// phpcs:ignore
-				echo "DTEND;VALUE=DATE:$end\r\n";// phpcs:ignore
-				echo "END:VEVENT\r\n";// phpcs:ignore
+				echo esc_attr( "BEGIN:VEVENT\r\n" );// phpcs:ignore
+				echo esc_attr( "SUMMARY:Booking Unavailable\r\n" );// phpcs:ignore
+				echo esc_attr( "DTSTART;VALUE=DATE:$start\r\n" );// phpcs:ignore
+				echo esc_attr( "DTEND;VALUE=DATE:$end\r\n" );// phpcs:ignore
+				echo esc_attr( "DTSTAMP:$dtstamp\r\n" );// phpcs:ignore
+				echo esc_attr( "UID:$uid\r\n" );// phpcs:ignore
+
+				echo esc_attr( "END:VEVENT\r\n" );// phpcs:ignore
 			}
 
-			echo "END:VCALENDAR\r\n";
+			echo esc_attr( "END:VCALENDAR\r\n" );
 			exit;
 		}
 	}
@@ -1439,13 +1510,16 @@ class Mwb_Bookings_For_Woocommerce_Common {
 			'index.php?export_airbnb_ical=1&calendar_id=$matches[1]',
 			'bottom'
 		);
-		  // /ical/92
-    add_rewrite_rule(
-        '^export/ical/([0-9]+)/?$',
-        'index.php?export_airbnb_ical=1&calendar_id=$matches[1]',
-        'bottom'
-    );
-	flush_rewrite_rules();
+		// /ical/92
+		add_rewrite_rule(
+			'^export/ical/([0-9]+)/?$',
+			'index.php?export_airbnb_ical=1&calendar_id=$matches[1]',
+			'bottom'
+		);
+
+		add_rewrite_endpoint('wps-mybookings-tab', EP_ROOT | EP_PAGES);
+
+		flush_rewrite_rules();
 	}
 	/**
 	 * Add query vars for iCal data.
@@ -1473,6 +1547,83 @@ class Mwb_Bookings_For_Woocommerce_Common {
 			unset($query_vars['attachment']);
 		}
 		return $query_vars;
+	}
+
+	/**
+	 * Show additional booking cost details on the form.
+	 *
+	 * @param int $product_id is the id of product.
+	 * @return void
+	 */
+	public function mwb_mbfw_show_additional_booking_cost_details_on_form( $product_id ) {
+			$mbfw_booking_service = get_the_terms( $product_id, 'mwb_booking_cost' );
+			
+			if ( $mbfw_booking_service && is_array( $mbfw_booking_service ) ) {
+				?>
+				<div class="mbfw-additionl-detail-listing-section__wrapper mbfw-additionl-detail-listing-section__wrapper_costs">
+					<?php
+					foreach ( $mbfw_booking_service as $custom_term ) {
+							?>
+							<div class="mwb_mbfw_detail-listing-wrap mwb_mbfw_detail-listing-wrap-costs">
+								<div class="mbfw-additionl-detail-listing-section-cost mbfw-additionl-detail-listing-section">
+									
+									
+										
+										<?php echo esc_html( $custom_term->name ); ?>
+									</span>
+								</div>
+								<div class="mbfw-additionl-detail-listing-section-cost mbfw-additionl-detail-listing-section">
+									<?php echo wp_kses_post( wc_price( get_term_meta( $custom_term->term_id, 'mwb_mbfw_booking_cost', true ) ) ); ?>
+								</div>
+								
+							</div>
+							<?php
+					}
+					echo esc_html__( 'Additional Cost Subtotal : ', 'mwb-bookings-for-woocommerce' );
+					?>
+				</div>
+				<?php
+			}
+	}
+
+	/**
+	 * Check service max quantity ajax callback.
+	 *
+	 * @return void
+	 */
+	public function mwb_check_service_max_qty_cb(){
+		check_ajax_referer( 'mbfw_common_nonce', 'nonce' );
+
+		$term_id = isset($_POST['term_id']) ? (int) $_POST['term_id'] : 0;
+		$qty     = isset($_POST['qty']) ? (int) $_POST['qty'] : 0;
+
+		if ( ! $term_id || $qty < 0 ) {
+			wp_send_json_error( array(
+				'message' => __( 'Invalid request.', 'mwb-bookings-for-woocommerce' ),
+			) );
+		}
+
+
+		$min = get_term_meta( $term_id, 'mwb_mbfw_service_minimum_quantity', true );
+		$max = get_term_meta( $term_id, 'mwb_mbfw_service_maximum_quantity', true );
+
+		$min = ( '' === $min ) ? null : (int) $min;
+		$max = ( '' === $max || 0 === (int) $max ) ? null : (int) $max;
+
+		if ( $min !== null && $qty < $min ) {
+			wp_send_json_error( array(
+				'message' => sprintf( __( 'Minimum allowed quantity is %d.', 'mwb-bookings-for-woocommerce' ), $min ),
+				'allowed' => array( 'min' => $min, 'max' => $max ),
+			) );
+		}
+
+		if ( $max !== null && $qty > $max ) {
+			wp_send_json_error( array(
+				'message' => sprintf( __( 'Maximum allowed quantity is %d.', 'mwb-bookings-for-woocommerce' ), $max ),
+				'allowed' => array( 'min' => $min, 'max' => $max ),
+			) );
+		}
+		wp_send_json_success();
 	}
 
 }

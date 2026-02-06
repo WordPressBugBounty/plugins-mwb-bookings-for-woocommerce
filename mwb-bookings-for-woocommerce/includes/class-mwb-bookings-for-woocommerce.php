@@ -75,7 +75,7 @@ class Mwb_Bookings_For_Woocommerce {
 
 			$this->version = MWB_BOOKINGS_FOR_WOOCOMMERCE_VERSION;
 		} else {
-			$this->version = '3.9.0';
+			$this->version = '3.11.0';
 		}
 
 		$this->plugin_name = 'bookings-for-woocommerce';
@@ -241,6 +241,11 @@ class Mwb_Bookings_For_Woocommerce {
 			// Fill the new column with the shortcode.
 			$this->loader->add_action('manage_wps_global_booking_posts_custom_column', $mbfw_plugin_admin, 'display_shortcode_column_for_booking', 10, 2);
 
+			$this->loader->add_filter('post_row_actions', $mbfw_plugin_admin, 'wps_unset_view_on_global_booking', 10, 2);
+			$this->loader->add_filter('post_updated_messages', $mbfw_plugin_admin, 'wps_remove_update_message', 10, 1);
+			$this->loader->add_action('admin_head', $mbfw_plugin_admin, 'wps_hide_view_url_global_booking', 10, 2);
+
+
 			// Airbnb crons.
 			$this->loader->add_filter( 'init', $mbfw_plugin_admin, 'wps_schedule_background_fetch_event' );
 
@@ -286,7 +291,8 @@ class Mwb_Bookings_For_Woocommerce {
 			$this->loader->add_action( 'wp_ajax_nopriv_mbfw_get_cart_data', $mbfw_plugin_common, 'mwb_mbfw_get_cart_items' );
 			$this->loader->add_action( 'wps_sfw_compatible_points_and_rewards', $mbfw_plugin_common, 'wps_sfw_compatible_with_subscription' );
 			$this->loader->add_action( 'wps_sfw_after_renewal_payment', $mbfw_plugin_common, 'wps_bfw_after_renewal_payment', 10, 3 );
-
+			$this->loader->add_action( 'wp_ajax_mwb_check_service_max_qty', $mbfw_plugin_common, 'mwb_check_service_max_qty_cb' );
+			$this->loader->add_action( 'wp_ajax_nopriv_mwb_check_service_max_qty', $mbfw_plugin_common, 'mwb_check_service_max_qty_cb' );
 			// air bnb calendar export.
 			$this->loader->add_action('template_redirect', $mbfw_plugin_common, 'wps_bfw_export_booking_data');
 			$this->loader->add_action('init', $mbfw_plugin_common, 'wps_rewite_rules_for_export_data');
