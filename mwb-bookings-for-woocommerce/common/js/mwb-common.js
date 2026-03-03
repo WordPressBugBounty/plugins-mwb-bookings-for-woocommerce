@@ -554,7 +554,14 @@ function retrieve_booking_total_ajax( form_data ) {
 					
 					}
 					$('.mwb-mbfw-total-area').html(msg);
-					jQuery('.cart .single_add_to_cart_button').prop('disabled', false);
+					var booking_product = mwb_mbfw_public_obj.booking_product;
+
+					if ( ( booking_product == 'yes' ) && ( jQuery( '#mwb-mbfw-booking-from-time').val() == '' || jQuery('#mwb-mbfw-booking-to-time').val() == '' || jQuery('#wps_booking_single_calendar_form').val() == '' || jQuery('#wps_booking_single_calendar_form_').val() == '' ) ) {
+
+						jQuery('.cart .single_add_to_cart_button').prop('disabled', true);
+					} else {
+						jQuery('.cart .single_add_to_cart_button').prop('disabled', false);
+					}
 
 				}
 

@@ -2263,6 +2263,12 @@ class Mwb_Bookings_For_Woocommerce_Admin {
 		$class      = false;
 		$product_id = $product->get_id();
 		if ( 'mwb_booking' === $product->get_type() ) {
+				    
+		$cancelled = wc_get_order_item_meta( $item_id, '_item_cancelled', true );
+
+		if ( $cancelled === 'yes' ) {
+			return;
+		}
 			if ( ! empty( $item->get_meta( '_mwb_mbfw_service_and_count', true ) ) ) {
 				$services_and_count = $item->get_meta( '_mwb_mbfw_service_and_count', true );
 				$product_id         = $item->get_product_id();
@@ -2829,7 +2835,6 @@ class Mwb_Bookings_For_Woocommerce_Admin {
 				$ical .= "SUMMARY:Unavailable\r\n";
 				$ical .= "DTSTART;VALUE=DATE:$date\r\n";
 				$ical .= "DTEND;VALUE=DATE:$date\r\n";
-				// $ical .= "STATUS:CANCELLED\r\n";
 				$ical .= "END:VEVENT\r\n";
 			}
 		}

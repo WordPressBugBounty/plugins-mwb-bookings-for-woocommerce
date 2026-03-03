@@ -664,21 +664,28 @@ jQuery(document).ready(function($){
                   var date_slots = wps_available_slots;
               }
               var count =0;
+              var is_today_date = moment(temp_date1, 'DD-MM-YYYY').isSame(moment(), 'day');
+              var current_time_hhmm = moment().format('HH:mm');
               //custom code
             if ( 'object' == typeof(date_slots)) {
-                date_slots1 = Object.entries(date_slots);
+                date_slots1 = Object.values(date_slots);
             } else {
                 date_slots1 = date_slots;
             }
-            for(let i=0; i< date_slots1.length; i++ ) { 
-                var temp =  date_slots1[i]._from + ' - ' + date_slots1[i]._to;
+            for(let i=0; i< date_slots1.length; i++ ) {
+                var slot_from = date_slots1[i]._from;
+                var temp =  slot_from + ' - ' + date_slots1[i]._to;
                 var temp_check = temp_date + temp;
+                // Exclude past slots on today from the available count
+                if (is_today_date && !moment(slot_from, "HH:mm").isAfter(moment(current_time_hhmm, "HH:mm"))) {
+                    continue;
+                }
                 if (booking_unavailable.length > 0) {
-                    
+
                     if (!booking_unavailable.includes(temp_check)) {
                         count ++;
-                            
-                        
+
+
                     }
                 } else {
                     count ++;
@@ -866,7 +873,7 @@ jQuery(document).ready(function($){
                         }
                         var temp =  start_time_disp + ' - ' + end_time_disp;
                         var temp_check = temp_date + temp;
-                        if ('disable_slot' == mwb_mbfw_public_obj.hide_or_disable_slot ) {
+                        if ("disable_slot" == mwb_mbfw_public_obj.hide_or_disable_slot ) {debugger;
 
                             if (booking_unavailable.length > 0) {
                                 if (!booking_unavailable.includes(temp_check)) {
@@ -1085,7 +1092,7 @@ jQuery(document).ready(function($){
 
 
    flatpickr('#wps_booking_single_calendar_form_', {  
-        mode: "multiple",
+        mode: mwb_mbfw_public_obj.single_cal_booking_single_date,
     locale: {...flatpickr.l10ns[mwb_mbfw_public_obj.lang] , // Set language
         firstDayOfWeek: mwb_mbfw_public_obj.firstDayOf_Week,  // Set first day of the week
     }, 
