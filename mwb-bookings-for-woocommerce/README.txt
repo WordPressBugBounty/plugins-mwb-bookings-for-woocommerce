@@ -1,13 +1,13 @@
-=== Bookings for WooCommerce – Create Booking Calendar, Start Scheduling, Manage Bookings And Appointments  ===
+=== Bookings for WooCommerce ===
 Contributors: wpswings
 Donate link:  https://wpswings.com/
 Tags: Bookings, Appointments, Appointment Booking, Booking System, Scheduling
 Requires at least: 6.7.0
-Tested up to: 6.9.1
+Tested up to: 6.9
 WC requires at least: 6.5.0
-WC tested up to: 10.5.2
-Stable tag: 3.11.2
-Requires PHP: 7.2
+WC tested up to: 10.6.2
+Stable tag: 3.11.3
+Requires PHP: 7.4
 License: GNU General Public License v3.0 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -15,13 +15,13 @@ This WordPress Booking Plugin lets you manage full-day bookings, service appoint
 
 == Description ==
 
-**BOOKINGS FOR WOOCOMMERCE IS THE MOST POWERFUL AND BEST AMONG ALL WORDPRESS SCHEDULING PLUGINS TRUSTED BY THOUSANDS OF BRAND OWNERS.**
+**Bookings for WooCommerce allows store owners to offer bookable products such as appointments, rentals, and events directly from their WooCommerce store.**
 
-Incorporate the finest, dependable online booking system for your bookings based business, designed specifically for your WooCommerce store. [**WooCommerce Bookings**](https://wpswings.com/product/bookings-for-woocommerce-pro/?utm_source=wpswings-bookings-pro&utm_medium=bookings-org-page&utm_campaign=bookings-pro) is an all-in-one appointment scheduling plugin Motivated to facilitate and automate your booking operations directly within your WooCommerce store. It empowers business owners to transform standard products into fully bookable services making time slot reservations seamless, intuitive, and entirely customer-driven.
+Incorporate the reliable, dependable online booking system for your bookings based business, designed specifically for your WooCommerce store. [**WooCommerce Bookings**](https://wpswings.com/product/bookings-for-woocommerce-pro/?utm_source=wpswings-bookings-pro&utm_medium=bookings-org-page&utm_campaign=bookings-pro) is an all-in-one appointment scheduling plugin Motivated to facilitate and automate your booking operations directly within your WooCommerce store. It empowers business owners to transform standard products into fully bookable services making time slot reservations seamless, intuitive, and entirely customer-driven.
 
 This WordPress booking plugin allows you to add a booking calendar on your website in order to schedule online appointments. You can also show your booking calendar on websites like Booking.com and Airbnb. Set the booking people types (adults, kids, and oldies), and manage your bookings with ease by utilizing the listing calendar and regulating the booking durations.
 
-You can now simply book time slots utilizing the WordPress booking plugin, confirm/reject bookings, display reservations on calendar listings, enable booking cancellations, promote booking availability, regulate booking duration, and much more using the WooCommerce Bookings plugin's capabilities.
+You can now simply book time slots utilizing the WordPress booking plugin, confirm/reject bookings, display reservations on calendar listings, enable booking cancellations, promote booking availability, regulate booking duration, and much more using the Bookings plugin's capabilities.
 
 == WooCommerce Bookings is the ultimate solution for all your booking and appointment needs across diverse industries: ==
 
@@ -29,7 +29,7 @@ You can now simply book time slots utilizing the WordPress booking plugin, confi
 
 * **Fitness Trainers & Gyms** – Our Bookings Plugin is compatible with the WooCommerce subscriptions plugin, which gives you the power of creating subscription-based booking products for your fitness classes, personal training sessions, and Gym memberships.
 
-* **Healthcare Providers** – Utilize the functionality of the WooCommerce booking plugin and set booking time slots – [24 hours or AM/PM](https://docs.wpswings.com/bookings-for-woocommerce/?utm_source=wpswings-bookings-org&utm_medium=referral&utm_campaign=documentation#product-data-settings-2), and schedule doctor’s appointments, therapy sessions, and consultations.
+* **Healthcare Providers** – Utilize the functionality of the booking plugin and set booking time slots – [24 hours or AM/PM](https://docs.wpswings.com/bookings-for-woocommerce/?utm_source=wpswings-bookings-org&utm_medium=referral&utm_campaign=documentation#product-data-settings-2), and schedule doctor’s appointments, therapy sessions, and consultations.
 
 * **Consultants & Coaches** – Administrators can [integrate Google Calendar](https://docs.wpswings.com/bookings-for-woocommerce/?utm_source=wpswings-bookings-org&utm_medium=referral&utm_campaign=documentation#general-settings-36), which allows clients to book appointments for consultations, coaching sessions, or workshops.
 
@@ -52,95 +52,42 @@ By utilizing this feature of the booking plugin, merchants can easily integrate 
 
 **NOTE:** Merchants can only add up to 5 fields while creating the form if you’re using the Free version of the plugin, and the “required” action is only accessible for users with the Premium Version.  
 
-####4) Hide Unavailable Dates
-Merchants can utilize this WooCommerce booking functionality to hide unavailable dates, avoiding confusion for customers. 
-
-####5) Choose Your Week’s Starting Day
+####4) Choose Your Week’s Starting Day
 The admins can conveniently select the start day for the week suiting the requirements of your booking website. 
 
-####6) Multi-Language Support for Calendars
+####5) Multi-Language Support for Calendars
 Merchants can select the language that aligns well with their target audience. This functionality helps merchants make their booking websites familiar to their customers.
 
-####7) Option To Hide/ Show Base Cost
-This feature allows admins to hide the base cost of booking products from customers, ensuring that only the final price is visible. This is especially useful in scenarios, where the base cost may fluctuate due to seasonal changes.
-
-####8) Booking Spotlight
+####6) Booking Spotlight
 Enhance your customer's online booking experience with this intuitive feature. Whenever a customer selects a particular date or slot for booking, it visually gets highlighted, making it easier for the customers to track their choices. 
 
-####9) No Slots, No Selection
-This smart feature of the WooCommerce bookings plugin automatically disables the date selection when all its slots are fully booked. This prevents customers from booking unavailable slots and makes their booking experience hassle-free.
-
-####10) Offer Bookings Availability Settings
+####7) Offer Bookings Availability Settings
 With the Bookings for WooCommerce Plugin, admins can effortlessly manage availability and scheduling for WooCommerce appointments. They can set daily availability as well as specific booking deadlines, simply by adjusting Start and End times in the plugin’s Availability tab within settings. This flexibility allows for more than 10 slots based on individual needs. Marketers can leverage this feature to customize availability for particular days, weeks, or even months.
 
 For instance, Marketers can set Mondays and Tuesdays as available until December.
 
-####11) Cost Concealment
-The admins can utilize this feature to hide the base cost of the booking product from the customers.
-
-####12) Projected Availability Timeline
-The admins can mention the availability window or set the day availability up to a particular date by using this feature.
-
-####13) Advanced Booking Filter
-Admins can utilize the filter to filter out the bookings by choosing them as per their preference, these being On-hold, pending, processing, or completed. This further helps streamline the booking management process convenient for the websites.
-
-####14) Easily Access Booking Links
-WordPress booking plugin now enables the admins to easily access the booking links from the calendar itself. All these links are clickable and it redirects the admins to the Order ID for that particular booking. 
-
-####15) Prompt Pop-Up For Cancellation
-Customers will be notified during the cancellation of a booking request if they still want to cancel the booking by utilizing the feature of the WooCommerce bookings plugin.
-
-####16) Toggle between Single Calendar & Dual Calendar
-With WooCommerce calendar booking, the merchant gets a chance to toggle between Single or Dual Calendar based on the requirements of your organization. 
-
-If a merchant decides to go ahead with the Dual Calendar, he will be in a position to mention the dates of booking which are unavailable and the days which are unavailable on a weekly basis (weekly off). The users can choose “to” and “from” dates for WP booking.
-
-But if a merchant decides to go ahead with the Single Calendar, he will be in a position to mention the dates of booking which are available. The customer can choose multiple dates. Users also get a chance to implement AM/PM timings to their current booking products in both calendars. Users also get a chance to implement AM/PM timings to their current booking products. 
-
-**NOTE:** If you have more unavailable dates, then you can go for the dual calendar, but if you have more available, you can go for the single calendar. 
-
-####17) Enable WordPress Bookings
-Using the WordPress Bookings plugin General Settings tab toggle button functionality, admin managers can simply enable/disable the plugin as well as the plugin's Woo bookings feature.
-
-####18) Flexible WooCommerce Bookings
+####8) Flexible Bookings
 With the booking and appointment plugin for WooCommerce, customers can tailor their WP booking criteria to their specific booking unit (hour, day, and minutes), budget, event, and requirements. You can make reservations without bothering to place a call, thus you can do so from the comfort of your home following easy booking management.
 
-####19) WordPress Bookings Confirmations & Cancellation Offered
+####9) WordPress Bookings Confirmations & Cancellation Offered
 With the WooCommerce appointments plugin, Admin managers can easily offer confirmations for booking requests made by customers, as well as easy booking cancellations, by utilizing the plugin’s capabilities.
 
-####20) Booking Listing and Sorting by Tag
-All requested WooCommerce booking plugin-based orders made by the customers are to be listed in the WooCommerce Order Listing table. Admin managers can conveniently sort the booking out of the orders using the Bookings tag available there.
-
-####21) Disable the Book Now Button
-The booking & appointment plugin for WooCommerce comes equipped with a useful feature that allows you to disable the “Book Now” button in the event that the form is empty. Additionally, this feature can also be configured to disable the “Book Now” button until dates have been selected on the WooCommerce calendar.
+####10) Booking Listing and Sorting by Tag
+All requested booking plugin-based orders made by the customers are to be listed in the WooCommerce Order Listing table. Admin managers can conveniently sort the booking out of the orders using the Bookings tag available there.
 
 By utilizing this feature, you can ensure that your customers are only able to submit complete and accurate booking requests, leading to a more efficient and streamlined booking process.
 
-####22) Add your Bookings to Google Calendar
+####11) Add your Bookings to Google Calendar
 With the click of a button, you can now instantly add your WP Booking requests utilizing our plugin-based setting option to your Google Calendar.
 Isn’t this a WOW feature? It goes without saying that this enables you to take pleasure in your reservations while also keeping you informed of their status and serving as a virtual reminder of them.
 
-####23) Ease of Structuring WooCommerce Calendar Booking
-The WooCommerce bookings plugin, allows merchants to build and analyze how their day or month is progressing. They can also make changes to current bookings or availability according to that.
+####12) Offered Services & Additional Costs
+With the WooCommerce appointments plugin, admin managers can easily create booking services and additional costs using the backend settings, and also can easily display them over the checkout page as well as over the individual bookable resource page.
 
-####24) Offered Services & Additional Costs
-With the WooCommerce appointments plugin, admin managers can easily create WooCommerce booking services and additional costs using the backend settings, and also can easily display them over the checkout page as well as over the individual bookable resource page.
-
-####25) Responsive Interface
+####13) Responsive Interface
 WordPress Online Booking provides an online mobile-friendly WooCommerce easy free online booking system, i.e. a responsive UI that works on a variety of devices. In short, they offer ease of access for their customers for online appointment booking products.
 
-####26) Easy Uptime Schedule Outlining
-With the help of the WooCommerce Booking Calendar, retailers can easily create and monitor their monthly bookings. Customers can also use such information to find out the start and end times of your service and easily start booking an appointment for them. Yes, retailers may now quickly specify the start and end times of the service for each day on the WP booking calendar. Moreover, let your clients have timetables that are simple to learn.
-
-####27) Offer Bookings Availability Settings
-Admin managers may easily specify booking and scheduling for WooCommerce-based availability for the day, as well as the exact deadline for booking an appointment with WooCommerce appointments. They only need to modify the Start and End times in the WooCommerce booking Availability tab of the plugin settings area to do so. The admins are free to add more than 10 slots based on their requirements.
-
-You can also mark your bookings unavailability for a day or for an upcoming event or a holiday in advance using our exclusive one-day unavailability settings.
-
-####28) Dedicated My Bookings Tab
-Yes, our plugin has a special My Bookings Tab for managing your booking requests easily. Your website's My Account section contains a link to this tab. You can easily visit there and check the information for all of your upcoming reservations.
-
-####29) Avoid Unwanted Bookings
+####14) Avoid Unwanted Bookings
 Prior to a day, admin managers can easily determine the maximum amount of WooCommerce appointments that can be made. So that they may provide easy booking management for their items, avoid unnecessary bookings, and easily indicate unavailability with the WordPress booking plugin.
 
 == BOOKING APPOINTMENT WORDPRESS PLUGIN MEETS YOUR REQUIREMENT, SO ==
@@ -154,32 +101,22 @@ Prior to a day, admin managers can easily determine the maximum amount of WooCom
 
 **Demo For Live Preview**
 
-* [WordPress Booking Demo : Different Pricing On Different Dates](https://demo.wpswings.com/bookings-for-woocommerce-pro/product/different-pricing/?utm_source=booking-org&utm_medium=referral&utm_campaign=wpswings-bookings-demo)
+* [WordPress Booking Demo : Different Pricing On Different Dates](https://demo.wpswings.com/bookings-for-woocommerce-pro/product/car-wash/?utm_source=booking-org&utm_medium=referral&utm_campaign=wpswings-bookings-demo)
 * [WordPress Booking Demo : Configurable Booking Start and End Times](https://demo.wpswings.com/bookings-for-woocommerce-pro/product/spa-services/?utm_source=booking-org&utm_medium=referral&utm_campaign=wpswings-bookings-demo)
 * [WordPress Booking Demo : Booking Calendar](https://demo.wpswings.com/bookings-for-woocommerce-pro/product/booking-calander/?utm_source=booking-org&utm_medium=referral&utm_campaign=wpswings-bookings-demo)
-
-== WITH THE WOOCOMMERCE BOOKINGS PLUGIN ON YOUR STORE YOU CAN: ==
-
-
-* With WooCommerce Booking you can Easily define additional booking costs and services from the backend.
-* Unit, base(days/hours), and additional cost-based WooCommerce bookable products can be defined.
-* With WooCommerce Appointment Plugin you can easily define the maximum number of bookings per day with the HMS unit.
-* Provide an easy upcoming Woo booking list as well as set daily start/end times using the WooCommerce Bookings Calendar.
-* Can define WooCommerce bookings availability Start and End time for the day with ease with a free online booking system.
-
 
 == WORDPRESS BOOKINGS PLUGIN COMPATIBILITIES ==
 * The Bookings plugin is compatible with [**Points and Rewards for WooCommerce**](https://wordpress.org/plugins/points-and-rewards-for-woocommerce/) and [**Points and Rewards for WooCommerce Pro**](https://wpswings.com/product/points-and-rewards-for-woocommerce-plugin/?utm_source=wpswings-bookings-org&utm_medium=referral&utm_campaign=Points-and-rewards-pro). This allows merchants to offer points and rewards on bookable products. 
 * Compatibility with Gutenberg Block allows merchants to seamlessly add the global calendar, just by entering the calendar ID to incorporate the calendar into different pages. This eliminates the need to copy and paste the unique global calendar shortcodes.
-* [Elementor Page Builder](https://wordpress.org/plugins/elementor/) is compatible with WooCommerce bookings plugin. This compatibility lets you use Elementor’s capabilities to add the “global calendar” to different pages without copying shortcodes. 
+* [Elementor Page Builder](https://wordpress.org/plugins/elementor/) is compatible with bookings plugin. This compatibility lets you use Elementor’s capabilities to add the “global calendar” to different pages without copying shortcodes. 
 * WooCommerce bookings plugin is compatible with [**Upsell Funnel Builder**](https://wordpress.org/plugins/upsell-order-bump-offer-for-woocommerce/). This allows admins to upsell booking-related items or whatever best suits the requirements of their online booking business.
-* WooCommerce Bookings plugin is compatible with [**Return Refund and Exchange for WooCommerce**](https://wordpress.org/plugins/woo-refund-and-exchange-lite/) and [**WooCommerce RMA For Return Refund & Exchange**](https://wpswings.com/product/rma-return-refund-exchange-for-woocommerce-pro/?utm_source=wpswings-bookings-org&utm_medium=bookings-org-page&utm_campaign=rma-pro-plugin). This will help the customers in receiving the overdue reimbursement or refunds easily using the WooCommerce bookings plugin.
+* WooCommerce Bookings plugin is compatible with [**Return Refund and Exchange for WooCommerce**](https://wordpress.org/plugins/woo-refund-and-exchange-lite/) and [**WooCommerce RMA For Return Refund & Exchange**](https://wpswings.com/product/rma-return-refund-exchange-for-woocommerce-pro/?utm_source=wpswings-bookings-org&utm_medium=bookings-org-page&utm_campaign=rma-pro-plugin). This will help the customers in receiving the overdue reimbursement or refunds easily using the bookings plugin.
 
 * The Bookings for WooCommerce is compatible with WordPress Multilingual i.e. WPML plugin and Multisite.
 
 * Our Bookings plugin is compatible with [**Subscriptions for WooCommerce**](https://wordpress.org/plugins/subscriptions-for-woocommerce/) and [**Subscriptions For WooCommerce Pro**](https://wpswings.com/product/subscriptions-for-woocommerce-pro/?utm_source=booking-org-page&utm_medium=referral&utm_campaign=subscriptions-pro). This allows merchants to list subscription-based booking products on their websites. They can charge sign-up fees and make it a recurring booking product. 
 * Bookings for WooCommerce plugin is compatible with our [Wallet System for WooCommerce](https://wordpress.org/plugins/wallet-system-for-woocommerce/). This allows customers to make bookings through the wallet frontend panel and recharge their wallets to use the balance for future purchases.
-* WooCommerce Bookings is compatible with [Ultimate Gift Cards for WooCommerce](https://wordpress.org/plugins/woo-gift-cards-lite/) and [Gift Cards for WooCommerce Pro](https://wpswings.com/product/gift-cards-for-woocommerce-pro/). This enables merchants to run offers wherein they can offer gift cards for salons, spas, etc, along with their booking products. 
+* Our Bookings plugin is compatible with [Ultimate Gift Cards for WooCommerce](https://wordpress.org/plugins/woo-gift-cards-lite/) and [Gift Cards for WooCommerce Pro](https://wpswings.com/product/gift-cards-for-woocommerce-pro/). This enables merchants to run offers wherein they can offer gift cards for salons, spas, etc, along with their booking products. 
 
 
 
@@ -187,7 +124,7 @@ Prior to a day, admin managers can easily determine the maximum amount of WooCom
 
 ####1. Allow Single-Day Booking For Customers 
 
-Utilise this functionality of the WooCommerce bookings plugin if merchants want their customers to book for a single day/date, not multiple days. This feature is suitable if you have a booking product that you want to enable for a day/date. 
+Utilize this functionality of the bookings plugin if merchants want their customers to book for a single day/date, not multiple days. This feature is suitable if you have a booking product that you want to enable for a day/date. 
 
 **NOTE:** This functionality works for Single Calendar. 
 
@@ -216,7 +153,7 @@ This reminder settings tab offers multiple setting options for setting up your b
 
 == TAKE ADVANTAGE OF EXCLUSIVE FEATURES OF WOOCOMMERCE BOOKINGS PLUGIN ==
 
-The Online Reservation Plugin i.e. Bookings for WooCommerce turns your ordinary WooCommerce store into an effective booking plugin in WordPress solution provider. Making use of WooCommerce bookings plugin features, you can create an online appointment booking system that caters to all your customer’s requirements with ease.
+The Online Reservation Plugin i.e. Bookings for WooCommerce turns your ordinary WooCommerce store into an effective booking plugin in WordPress solution provider. Making use of bookings plugin features, you can create an online appointment booking system that caters to all your customer’s requirements with ease.
 
 > Note: Get [**Bookings for WooCommerce Pro**](https://wpswings.com/product/bookings-for-woocommerce-pro/?utm_source=wpswings-bookings-pro&utm_medium=bookings-org-page&utm_campaign=bookings-pro)
 
@@ -246,8 +183,271 @@ In the search field type **"Bookings for WooCommerce"** and click Search Plugins
 = Manual installation =
 The manual installation method involves downloading our Bookings for WooCommerce and uploading it to your web server via your favorite FTP application. The WordPress codex contains [**instructions on how to do this here**](https://wordpress.org/support/article/managing-plugins/#manual-plugin-installation).
 
-= Updating =
-Automatic updates should work like a charm; as always though, ensure you backup your site just in case.
+== External Services ==
+
+**WP Swings Support Service**
+Used to allow users to submit queries/support requests.
+Data sent: User-provided form data submitted on the support page (name, email, message).
+When: When the user clicks Support and submits the form.
+Service endpoint:
+https://wpswings.com/submit-query/
+https://wpswings.com/submit-query/?utm_source=wpswings-bookings-query&utm_medium=bookings-org-page&utm_campaign=query
+https://wpswings.com/submit-query/?utm_source=wpswings-bookings-support&utm_medium=bookings-org-backend&utm_campaign=support
+Terms of Service:
+https://wpswings.com/terms-and-conditions/
+Privacy Policy:
+https://wpswings.com/privacy-policy/
+
+**WP Swings Marketing / Product Pages**
+Used for product marketing, services, and related links in admin/README.
+Data sent: Standard web request data when links are opened (IP, user agent, referrer).
+When: When the user clicks marketing/product links.
+Service endpoints:
+https://wpswings.com
+https://wpswings.com/
+https://wpswings.com/?utm_source=wpswings-bookings-official&utm_medium=bookings-org-page&utm_campaign=official
+https://wpswings.com/?utm_source=wpswings-official&utm_medium=bookings-org-page&utm_campaign=official
+https://wpswings.com/blog/woocommerce-online-booking-system/
+https://wpswings.com/product/bookings-for-woocommerce-pro/?utm_source=wpswings-bookings-pro&utm_medium=booikings-org-backend&utm_campaign=go-pro
+https://wpswings.com/product/bookings-for-woocommerce-pro/?utm_source=wpswings-bookings-pro&utm_medium=bookings-org-page&utm_campaign=bookings-pro
+https://wpswings.com/product/gift-cards-for-woocommerce-pro/
+https://wpswings.com/product/points-and-rewards-for-woocommerce-plugin/?utm_source=wpswings-bookings-org&utm_medium=referral&utm_campaign=Points-and-rewards-pro
+https://wpswings.com/product/rma-return-refund-exchange-for-woocommerce-pro/?utm_source=wpswings-bookings-org&utm_medium=bookings-org-page&utm_campaign=rma-pro-plugin
+https://wpswings.com/product/subscriptions-for-woocommerce-pro/?utm_source=booking-org-page&utm_medium=referral&utm_campaign=subscriptions-pro
+https://wpswings.com/woocommerce-plugins/?utm_source=bookings-org-page&utm_medium=referral&utm_campaign=woocommerce-plugins
+https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-bookings&utm_medium=bookings-org-backend&utm_campaign=official
+https://wpswings.com/woocommerce-services/?utm_source=wpswings-bookings-services&utm_medium=bookings-org-backend&utm_campaign=woocommerce-services
+https://wpswings.com/woocommerce-services/?utm_source=wpswings-bookings-services&utm_medium=bookings-org-page&utm_campaign=woocommerce-services
+Terms of Service:
+https://wpswings.com/terms-and-conditions/
+Privacy Policy:
+https://wpswings.com/privacy-policy/
+
+**WP Swings Documentation**
+Used for documentation links in README/admin UI.
+Data sent: Standard web request data when links are opened.
+When: When the user clicks documentation links.
+Service endpoints:
+https://docs.wpswings.com/bookings-for-woocommerce/?utm_source=wpswings-bookings-doc&utm_medium=bookings-org-backend&utm_campaign=documentation
+https://docs.wpswings.com/bookings-for-woocommerce/?utm_source=wpswings-bookings-doc&utm_medium=bookings-org-page&utm_campaign=bookings-doc
+https://docs.wpswings.com/bookings-for-woocommerce/?utm_source=wpswings-bookings-org&utm_medium=referral&utm_campaign=documentation#general-settings-36
+https://docs.wpswings.com/bookings-for-woocommerce/?utm_source=wpswings-bookings-org&utm_medium=referral&utm_campaign=documentation#product-data-settings-2
+https://docs.wpswings.com/bookings-for-woocommerce/#product-data-settings-2
+https://docs.wpswings.com/integrate-bookings-with-google-calendar/#set-up-google-calendar-with-bookings-for-woocommerce-pro
+https://docs.wpswings.com/sync-global-calendar-with-airbnb/#global-calendar
+https://docs.wpswings.com/sync-global-calendar-with-airbnb/#sync-global-calendar-with-airbnb
+Terms of Service: Not specified in repo.
+Privacy Policy: Not specified in repo.
+
+**WP Swings Knowledge Base & Forums**
+Used for support resources.
+Data sent: Standard web request data when links are opened.
+When: When the user clicks knowledge base or forums links.
+Service endpoints:
+https://support.wpswings.com/wordpress-plugins-knowledge-base/category/bookings-for-woocommerce/?utm_source=wpswings-bookings-kb&utm_medium=bookings-org-page&utm_campaign=bookings-kb
+https://forums.wpswings.com/?utm_source=wpswings-forums&utm_medium=bookings-org-page&utm_campaign=forum
+Terms of Service: Not specified in repo.
+Privacy Policy: Not specified in repo.
+
+**WP Swings Demos**
+Used to show product demos.
+Data sent: Standard web request data when demo links are opened.
+When: When the user clicks demo links.
+Service endpoints:
+https://demo.wpswings.com/bookings-for-woocommerce-pro/?utm_source=wpswings-bookings-demo&utm_medium=booikngs-org-backend&utm_campaign=demo
+https://demo.wpswings.com/bookings-for-woocommerce-pro/?utm_source=wpswings-bookings-pro&utm_medium=bookings-org-page&utm_campaign=frontend-demo
+https://demo.wpswings.com/bookings-for-woocommerce-pro/get-personal-demo/?utm_source=wpswings-bookings-pro&utm_medium=bookings-org-page&utm_campaign=backend-demo
+https://demo.wpswings.com/bookings-for-woocommerce-pro/product/booking-calander/?utm_source=booking-org&utm_medium=referral&utm_campaign=wpswings-bookings-demo
+https://demo.wpswings.com/bookings-for-woocommerce-pro/product/car-wash/?utm_source=booking-org&utm_medium=referral&utm_campaign=wpswings-bookings-demo
+https://demo.wpswings.com/bookings-for-woocommerce-pro/product/spa-services/?utm_source=booking-org&utm_medium=referral&utm_campaign=wpswings-bookings-demo
+https://demo.wpswings.com/bookings-for-woocommerce-pro/product/spa-services/?utm_source=wpswings-bookings-org&utm_medium=referral&utm_campaign=bookings-demo
+Terms of Service: Not specified in repo.
+Privacy Policy: Not specified in repo.
+
+**WP Swings Client Notification**
+Used to fetch banner notifications.
+Data sent: action=wps_notification_fetch, plugin_version.
+When: Daily cron fetch for banner notifications.
+Service endpoint:
+https://demo.wpswings.com/client-notification/woo-gift-cards-lite/wps-client-notify.php
+Terms of Service: Not specified in repo.
+Privacy Policy: Not specified in repo.
+
+**HubSpot Forms**
+Used for onboarding and deactivation feedback forms.
+Data sent: Form fields submitted by admin, plus currency, and context pageUri, pageName, and ipAddress.
+When: When onboarding/deactivation form is submitted from the plugin.
+Service endpoint:
+https://api.hsforms.com/
+Terms of Service:
+https://legal.hubspot.com/terms-of-service
+Privacy Policy:
+https://legal.hubspot.com/privacy-policy
+
+**Google Calendar (Add-to-Calendar Link)**
+Used to create “Add to Google Calendar” links for bookings.
+Data sent: Booking name, dates, details, location in URL parameters.
+When: When user clicks the calendar link.
+Service endpoints:
+https://calendar.google.com/calendar/r/eventedit
+https://calendar.google.com/calendar/r/eventedit?text=
+Terms of Service:
+https://policies.google.com/terms
+Privacy Policy:
+https://policies.google.com/privacy
+
+**Google Calendar API (FullCalendar Integration)**
+Used if Google Calendar integration is enabled in FullCalendar.
+Data sent: Calendar ID, API key, and query parameters.
+When: When FullCalendar is configured to pull events from Google Calendar.
+Service endpoint:
+https://www.googleapis.com/calendar/v3/calendars
+Terms of Service:
+https://policies.google.com/terms
+Privacy Policy:
+https://policies.google.com/privacy
+
+**Google Maps Embed**
+Used to embed maps for locations.
+Data sent: Location string in query parameter, standard request data.
+When: When map iframe is rendered.
+Service endpoints:
+https://maps.google.it/maps
+https://maps.google.it/maps?q=
+Terms of Service:
+https://policies.google.com/terms
+Privacy Policy:
+https://policies.google.com/privacy
+
+**Google Fonts (Static Assets)**
+Used to load font assets (if referenced by styles).
+Data sent: Standard web request data for font files.
+When: When fonts are loaded by the browser.
+Service endpoint:
+https://fonts.gstatic.com/
+Terms of Service:
+https://policies.google.com/terms
+Privacy Policy:
+https://policies.google.com/privacy
+
+**YouTube (Videos / Tutorials)**
+Used to link to demo/tutorial videos.
+Data sent: Standard web request data when link is opened.
+When: When user clicks video links.
+Service endpoints:
+https://www.youtube.com/watch?v=QTIiZDAtWKA
+https://youtu.be/7FhO1j6egnY?si=9OmWZ1mrMu8nQkC8?rel=0
+https://youtu.be/h0uP_DKhHE0?si=5InymD9bvFCNt88z
+Terms of Service: Not specified in repo.
+Privacy Policy: Not specified in repo.
+
+**WordPress.org Plugin Directory & Downloads**
+Used for plugin listing, downloads, and related plugin references.
+Data sent: Standard web request data when links are opened.
+When: When user clicks WordPress.org links.
+Service endpoints:
+https://wordpress.org/plugins/mwb-bookings-for-woocommerce/
+https://downloads.wordpress.org/plugin/mwb-bookings-for-woocommerce.zip
+https://wordpress.org/support/article/managing-plugins/#manual-plugin-installation
+https://wordpress.org/plugins/elementor/
+https://wordpress.org/plugins/points-and-rewards-for-woocommerce/
+https://wordpress.org/plugins/subscriptions-for-woocommerce/
+https://wordpress.org/plugins/upsell-order-bump-offer-for-woocommerce/
+https://wordpress.org/plugins/wallet-system-for-woocommerce/
+https://wordpress.org/plugins/woo-gift-cards-lite/
+https://wordpress.org/plugins/woo-refund-and-exchange-lite/
+Terms of Service: Not specified in repo.
+Privacy Policy: Not specified in repo.
+
+**WooCommerce Documentation**
+Used for template structure reference.
+Data sent: Standard web request data when link is opened.
+When: When user clicks documentation link.
+Service endpoint:
+https://woocommerce.com/document/template-structure/
+Terms of Service: Not specified in repo.
+Privacy Policy: Not specified in repo.
+
+**Front-end Library/CDN References**
+Used for library references and licenses.
+Data sent: Standard web request data when links are opened.
+When: When users open docs/licenses links.
+Service endpoints:
+https://cdnjs.cloudflare.com/
+https://code.jquery.com/
+https://maxcdn.bootstrapcdn.com/
+https://datatables.net/license
+https://github.com/eternicode/bootstrap-datepicker
+https://github.com/uxsolutions/bootstrap-datepicker/blob/master/LICENSE
+https://github.com/flatpickr/flatpickr/blob/master/LICENSE.md
+https://github.com/fullcalendar/fullcalendar/blob/main/LICENSE.txt
+https://github.com/material-components/material-components-web/blob/master/LICENSE
+http://www.apache.org/licenses/LICENSE-2.0
+Terms of Service: Not specified in repo.
+Privacy Policy: Not specified in repo.
+
+**Developer Reference Resources**
+Used for development references in README or comments.
+Data sent: Standard web request data when links are opened.
+When: When developers open reference links.
+Service endpoints:
+https://developer.mozilla.org/
+https://caniuse.com/
+https://stackoverflow.com/
+https://www.w3.org/
+https://chir.ag/projects/name-that-color/
+Terms of Service: Not specified in repo.
+Privacy Policy: Not specified in repo.
+
+**Licenses (FSF/GNU)**
+Used for license references.
+Data sent: Standard web request data when links are opened.
+When: When users open license links.
+Service endpoints:
+https://fsf.org/
+http://www.gnu.org/licenses/gpl-3.0.html
+https://www.gnu.org/licenses/
+https://www.gnu.org/licenses/why-not-lgpl.html
+Terms of Service: Not specified in repo.
+Privacy Policy: Not specified in repo.
+
+**Build/CI Tools**
+Used in GitHub workflows for Composer and WP-CLI.
+Data sent: Standard HTTP requests to download installer/phar when CI runs.
+When: During CI runs on GitHub Actions.
+Service endpoints:
+https://getcomposer.org/installer
+https://getcomposer.org/doc/articles/scripts.md
+https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+Terms of Service: Not specified in repo.
+Privacy Policy: Not specified in repo.
+
+**Miscellaneous References**
+Used for source/reference notes.
+Data sent: Standard web request data when link is opened.
+When: When developers open references.
+Service endpoint:
+https://github.com/tommcfarlin/WordPress-Plugin-Boilerplate/pull/123#issuecomment-28541913
+Terms of Service: Not specified in repo.
+Privacy Policy: Not specified in repo.
+
+**SVG Namespace (Non-service Link)**
+Used as XML namespace in SVG assets.
+Data sent: None.
+When: Not a network request.
+Service endpoint:
+http://www.w3.org/2000/svg
+Terms of Service: Not applicable.
+Privacy Policy: Not applicable.
+
+**Local Dev Proxy (Commented)**
+Used as a local proxy example in gulpfile.js (commented).
+Data sent: None by default.
+When: Only if a developer enables it locally.
+Service endpoint:
+http://pluginsetup.chandresh.php/
+Terms of Service: Not specified in repo.
+Privacy Policy: Not specified in repo.
 
 ==Screenshots==
 
@@ -319,9 +519,12 @@ Check out [**WooCommerce Bookings knowledge base**](https://support.wpswings.com
 
 == Changelog ==
 
-= 3.11.2 - Released on 03th March 2026 =
+= 3.11.3 - Released on 08 April 2026 =
 
-* New: Add single date selection option in day wise single calendar.
+* New: Latest compatibility With WP [6.9] and WC [10.6.2].
+
+= 3.11.2 - Released on 3rd March 2026 =
+
 * New: Latest compatibility With WP [6.9.1] and WC [10.5.2].
 
 = 3.11.1 - Released on 10th February 2026 =
@@ -566,6 +769,6 @@ Check out [**WooCommerce Bookings knowledge base**](https://support.wpswings.com
 
 == Upgrade Notice ==
 
-= 3.11.2 - Released on 03th March 2026 =
+= 3.11.3 - Released on 08 April 2026 =
 
-* New: Latest compatibility With WP [6.9.1] and WC [10.5.2].
+* New: Latest compatibility With WP [6.9] and WC [10.6.2].

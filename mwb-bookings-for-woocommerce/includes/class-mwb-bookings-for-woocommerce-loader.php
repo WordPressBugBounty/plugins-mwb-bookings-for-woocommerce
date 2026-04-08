@@ -19,6 +19,17 @@
  * @package    Mwb_Bookings_For_Woocommerce
  * @subpackage Mwb_Bookings_For_Woocommerce/includes
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+/**
+ * Registers all actions and filters for the plugin.
+ *
+ * @package    Mwb_Bookings_For_Woocommerce
+ * @subpackage Mwb_Bookings_For_Woocommerce/includes
+ */
 class Mwb_Bookings_For_Woocommerce_Loader {
 
 	/**
