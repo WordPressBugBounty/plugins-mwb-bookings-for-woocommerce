@@ -1,4 +1,4 @@
-=== Bookings for WooCommerce ===
+=== WPS Bookings for WooCommerce ===
 Contributors: wpswings
 Donate link:  https://wpswings.com/
 Tags: Bookings, Appointments, Appointment Booking, Booking System, Scheduling
@@ -6,7 +6,7 @@ Requires at least: 6.7.0
 Tested up to: 6.9
 WC requires at least: 6.5.0
 WC tested up to: 10.6.2
-Stable tag: 3.11.3
+Stable tag: 3.11.4
 Requires PHP: 7.4
 License: GNU General Public License v3.0 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -266,23 +266,21 @@ Privacy Policy: Not specified in repo.
 
 **WP Swings Client Notification**
 Used to fetch banner notifications.
-Data sent: action=wps_notification_fetch, plugin_version.
-When: Daily cron fetch for banner notifications.
+Data sent: Plugin slug and version number.
+When: When the admin visits the plugin dashboard.
 Service endpoint:
 https://demo.wpswings.com/client-notification/woo-gift-cards-lite/wps-client-notify.php
 Terms of Service: Not specified in repo.
 Privacy Policy: Not specified in repo.
 
 **HubSpot Forms**
-Used for onboarding and deactivation feedback forms.
-Data sent: Form fields submitted by admin, plus currency, and context pageUri, pageName, and ipAddress.
-When: When onboarding/deactivation form is submitted from the plugin.
-Service endpoint:
-https://api.hsforms.com/
-Terms of Service:
-https://legal.hubspot.com/terms-of-service
-Privacy Policy:
-https://legal.hubspot.com/privacy-policy
+Used for onboarding and deactivation feedback.
+ 
+Data sent: Name, email, site URL, and feedback when forms are submitted.
+ 
+Endpoint: https://api.hsforms.com/`(submission endpoint built from this base)
+Terms: https://legal.hubspot.com/terms-of-service
+Privacy: https://legal.hubspot.com/privacy-policy
 
 **Google Calendar (Add-to-Calendar Link)**
 Used to create “Add to Google Calendar” links for bookings.
@@ -518,6 +516,11 @@ In our plugin, there are two types of booking units-
 Check out [**WooCommerce Bookings knowledge base**](https://support.wpswings.com/wordpress-plugins-knowledge-base/category/bookings-for-woocommerce/?utm_source=wpswings-bookings-kb&utm_medium=bookings-org-page&utm_campaign=bookings-kb)
 
 == Changelog ==
+
+= 3.11.4 - Released on 15 April 2026 =
+
+* New: Latest compatibility With WP [6.9] and WC [10.6.2].
+* Fix: Deprecated function issues and escaping issues.
 
 = 3.11.3 - Released on 08 April 2026 =
 
@@ -769,6 +772,7 @@ Check out [**WooCommerce Bookings knowledge base**](https://support.wpswings.com
 
 == Upgrade Notice ==
 
-= 3.11.3 - Released on 08 April 2026 =
+= 3.11.4 - Released on 15 April 2026 =
 
 * New: Latest compatibility With WP [6.9] and WC [10.6.2].
+* Fix: Deprecated function issues and escaping issues.
