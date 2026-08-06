@@ -12,8 +12,20 @@ document.addEventListener('DOMContentLoaded', function () {
     const defaultPrice = bookingCalendarData.defaultPrice;
     const required = bookingCalendarData.required_msg;
     const dateSelectMsg = bookingCalendarData.date_select_msg;
+    const weeklyOffDays = bookingCalendarData.weeklyOffDays || [];
 
     today.setHours(0, 0, 0, 0);
+
+    // Pre-process available/unavailable dates into plain arrays once.
+    const unavailableDates = bookingCalendarData.unavailableDates || [];
+    let availableDates;
+    if ( Array.isArray( bookingCalendarData.availableDates ) ) {
+        availableDates = bookingCalendarData.availableDates;
+    } else if ( typeof bookingCalendarData.availableDates === 'object' && bookingCalendarData.availableDates !== null ) {
+        availableDates = Object.values( bookingCalendarData.availableDates );
+    } else {
+        availableDates = [];
+    }
 
     let selectedDates = []; // store all chosen dates
 
@@ -27,12 +39,47 @@ document.addEventListener('DOMContentLoaded', function () {
             const cellDate = new Date(arg.date);
             cellDate.setHours(0, 0, 0, 0);
 
+            // Build YYYY-MM-DD using LOCAL time (FullCalendar all-day dates are local midnight).
+            const d = arg.date;
+            const cellDateStr = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+
             // Disable past dates
             if (cellDate < today) {
                 arg.el.style.filter = 'blur(2px)';
                 arg.el.style.pointerEvents = 'none';
                 arg.el.style.cursor = 'not-allowed';
                 arg.el.classList.add('fc-disabled-date');
+            }
+
+            // Weekly off days — gray background + red number
+            if (weeklyOffDays.includes(cellDate.getDay())) {
+                arg.el.style.backgroundColor = '#f0f0f0';
+                arg.el.style.pointerEvents = 'none';
+                arg.el.style.cursor = 'not-allowed';
+                arg.el.classList.add('fc-weekly-off');
+
+                // FullCalendar sets opacity:0.3 on .fc-daygrid-day-top for outside-month days.
+                // Reset it so the red number stays fully visible on those cells too.
+                const dayTop = arg.el.querySelector('.fc-daygrid-day-top');
+                if (dayTop) {
+                    dayTop.style.opacity = '1';
+                }
+                // Set the day number color directly so it's red regardless of CSS
+                // specificity issues (e.g. today's date, outside-month days).
+                const dayNumber = arg.el.querySelector('.fc-daygrid-day-number');
+                if (dayNumber) {
+                    dayNumber.style.color = '#ff4d4d';
+                }
+            }
+
+            // Highlight available dates
+            if (availableDates.includes(cellDateStr)) {
+                arg.el.classList.add('fc-available-date');
+            }
+
+            // Highlight unavailable dates
+            if (unavailableDates.includes(cellDateStr)) {
+                arg.el.classList.add('fc-unavailable-date');
             }
         },
 
@@ -45,15 +92,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
 
-            const clickedDateStr = info.dateStr;debugger;
-            const unavailableDates = bookingCalendarData.unavailableDates;
-            let availableDates;
-
-            if (typeof bookingCalendarData.availableDates === 'object' && bookingCalendarData.availableDates !== null) {
-                availableDates = Object.values(bookingCalendarData.availableDates);
-            } else {
-                availableDates = bookingCalendarData.availableDates;
+            // Block weekly off days
+            if (weeklyOffDays.includes(clickedDate.getDay())) {
+                alert(bookingCalendarData.weekly_off_msg);
+                return;
             }
+
+            const clickedDateStr = info.dateStr;
 
             if (unavailableDates.includes(clickedDateStr) || ! availableDates.includes(clickedDateStr)) {
                 alert(bookingCalendarData.unavailable_msg);
@@ -66,6 +111,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 selectedDates = selectedDates.filter(d => d !== clickedDateStr);
                 info.dayEl.style.backgroundColor = ''; // reset highlight
             } else {
+                // Enforce per-order booking limit if enabled
+                if (
+                    bookingCalendarData.orderLimitEnabled &&
+                    bookingCalendarData.orderLimit > 0 &&
+                    selectedDates.length >= bookingCalendarData.orderLimit
+                ) {
+                    alert(bookingCalendarData.order_limit_msg);
+                    return;
+                }
                 selectedDates.push(clickedDateStr);
                 info.dayEl.style.backgroundColor = '#90EE90'; // highlight selected
             }

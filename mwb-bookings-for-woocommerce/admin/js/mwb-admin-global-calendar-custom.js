@@ -24,15 +24,18 @@ jQuery(function ($) {
             dateFormat: "Y-m-d",
             allowInput: false,
             defaultDate: availableDates,
-                disable: nonAvailableDates,           // disable non-available dates
+            disable: nonAvailableDates,
+
+            onOpen: function(selectedDates, dateStr, instance) {
+                instance.jumpToDate(new Date());
+            },
 
             onChange: function(selectedDates, dateStr, instance) {
                 // Sync available dates
                 availableDates = selectedDates.map(d => instance.formatDate(d, "Y-m-d"));
 
                 // Remove from non-available if overlapping
-                        nonAvailablePicker.set('disable', availableDates);
-
+                nonAvailablePicker.set('disable', availableDates);
             }
         });
 
@@ -41,15 +44,18 @@ jQuery(function ($) {
             dateFormat: "Y-m-d",
             allowInput: false,
             defaultDate: nonAvailableDates,
-                disable: availableDates,           // disable non-available dates
+            disable: availableDates,
+
+            onOpen: function(selectedDates, dateStr, instance) {
+                instance.jumpToDate(new Date());
+            },
 
             onChange: function(selectedDates, dateStr, instance) {
                 // Sync non-available dates
                 nonAvailableDates = selectedDates.map(d => instance.formatDate(d, "Y-m-d"));
 
                 // Remove from available if overlapping
-                        availablePicker.set('disable', nonAvailableDates);
-
+                availablePicker.set('disable', nonAvailableDates);
             }
         });
 
@@ -80,13 +86,28 @@ jQuery(function ($) {
             $field.on('keypress', function(e){
 
                 // Block minus, plus, E/e (exponential), decimal
-                if (e.key === '-' || 
-                    e.key === '+' || 
-                    e.key === 'e' || 
-                    e.key === 'E' || 
+                if (e.key === '-' ||
+                    e.key === '+' ||
+                    e.key === 'e' ||
+                    e.key === 'E' ||
                     e.key === '.' ) {
                     e.preventDefault();
                 }
+            });
+
+            // Toggle Maximum Bookings Per Order field visibility
+            var $orderLimitCheckbox = $('#wps_enable_booking_limit_per_order');
+            var $orderLimitWrap     = $('#wps_booking_limit_per_order_wrap');
+
+            $orderLimitCheckbox.on('change', function() {
+                $orderLimitWrap.toggle( this.checked );
+            });
+
+            // Initialise Select2 on Weekly Off multi-select
+            $('#wps_weekly_off_days').select2({
+                placeholder: 'Select days',
+                allowClear: true,
+                width: '100%',
             });
 	});
 
