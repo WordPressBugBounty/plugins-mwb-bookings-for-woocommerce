@@ -86,7 +86,7 @@ class Mwb_Bookings_For_Woocommerce {
 
 			$this->version = MWB_BOOKINGS_FOR_WOOCOMMERCE_VERSION;
 		} else {
-			$this->version = '3.12.0';
+			$this->version = '3.13.0';
 		}
 
 		$this->plugin_name = 'bookings-for-woocommerce';
@@ -134,6 +134,7 @@ class Mwb_Bookings_For_Woocommerce {
 			// The class responsible for defining all actions that occur in the admin area.
 			include_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-mwb-bookings-for-woocommerce-admin.php';
 			include_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-mwb-bookings-for-woocommerce-talk-to-expert-form.php';
+			include_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-mwb-bookings-for-woocommerce-analytics.php';
 
 			// The class responsible for on-boarding steps for plugin.
 			if ( is_dir( plugin_dir_path( dirname( __FILE__ ) ) . 'onboarding' ) && ! class_exists( 'Mwb_Bookings_For_Woocommerce_Onboarding_Steps' ) ) {
@@ -157,6 +158,9 @@ class Mwb_Bookings_For_Woocommerce {
 		 * of the plugin.
 		 */
 		include_once plugin_dir_path( dirname( __FILE__ ) ) . 'common/class-mwb-bookings-for-woocommerce-common.php';
+
+		// Dynamic pricing feature — included always; class guards admin-only hooks internally.
+		include_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-mwb-bookings-dynamic-pricing.php';
 
 		$this->loader = new Mwb_Bookings_For_Woocommerce_Loader();
 
@@ -183,6 +187,7 @@ class Mwb_Bookings_For_Woocommerce {
 	private function mwb_bookings_for_woocommerce_admin_hooks() {
 		$mbfw_plugin_admin = new Mwb_Bookings_For_Woocommerce_Admin( $this->mbfw_get_plugin_name(), $this->mbfw_get_version() );
 		new Mwb_Bookings_For_Woocommerce_Talk_To_Expert_Form();
+		new Mwb_Bookings_For_Woocommerce_Analytics();
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $mbfw_plugin_admin, 'mbfw_admin_enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $mbfw_plugin_admin, 'mbfw_admin_enqueue_scripts' );
@@ -278,6 +283,10 @@ class Mwb_Bookings_For_Woocommerce {
 	 * @since 2.0.0
 	 */
 	private function mwb_bookings_for_woocommerce_common_hooks() {
+		// Dynamic pricing: registers admin UI hooks when is_admin(), and always
+		// registers the price-adjustment filters for cart and AJAX preview.
+		new Mwb_Bookings_Dynamic_Pricing();
+
 		$mbfw_plugin_common = new Mwb_Bookings_For_Woocommerce_Common( $this->mbfw_get_plugin_name(), $this->mbfw_get_version() );
 		$this->loader->add_action( 'wp_enqueue_scripts', $mbfw_plugin_common, 'mbfw_common_enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $mbfw_plugin_common, 'mbfw_common_enqueue_scripts' );
@@ -298,6 +307,7 @@ class Mwb_Bookings_For_Woocommerce {
 			$this->loader->add_action( 'woocommerce_thankyou', $mbfw_plugin_common, 'mwb_bfwp_change_order_status' );
 			$this->loader->add_action( 'woocommerce_order_item_meta_end', $mbfw_plugin_common, 'mbfw_show_booking_details_on_my_account_page_user', 10, 3 );
 			$this->loader->add_filter( 'woocommerce_valid_order_statuses_for_order_again', $mbfw_plugin_common, 'mwb_mbfw_hide_reorder_button_my_account_orders' );
+			$this->loader->add_filter( 'woocommerce_payment_complete_order_status', $mbfw_plugin_common, 'mwb_mbfw_payment_complete_order_status', 10, 3 );
 			$this->loader->add_action( 'wp_ajax_bfw_cancelled_booked_order', $mbfw_plugin_common, 'wps_bfw_cancelled_booked_order' );
 
 			$this->loader->add_action( 'wp_ajax_mbfw_get_cart_data', $mbfw_plugin_common, 'mwb_mbfw_get_cart_items' );
@@ -443,6 +453,12 @@ class Mwb_Bookings_For_Woocommerce {
 			'title'     => esc_html__( 'Configuration Settings', 'mwb-bookings-for-woocommerce' ),
 			'name'      => 'mwb-bookings-for-woocommerce-configuration',
 			'file_path' => MWB_BOOKINGS_FOR_WOOCOMMERCE_DIR_PATH . 'admin/partials/mwb-bookings-for-woocommerce-configuration.php',
+		);
+
+		$mbfw_default_tabs['mwb-bookings-for-woocommerce-analytics'] = array(
+			'title'     => esc_html__( 'Analytics', 'mwb-bookings-for-woocommerce' ),
+			'name'      => 'mwb-bookings-for-woocommerce-analytics',
+			'file_path' => MWB_BOOKINGS_FOR_WOOCOMMERCE_DIR_PATH . 'admin/partials/mwb-bookings-for-woocommerce-analytics.php',
 		);
 
 		$mbfw_default_tabs =

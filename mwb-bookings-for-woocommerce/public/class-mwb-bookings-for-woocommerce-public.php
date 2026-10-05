@@ -654,6 +654,7 @@ class Mwb_Bookings_For_Woocommerce_Public {
 					'order_limit_msg'     => sprintf( __( 'You can only select up to %d date(s) per order.', 'mwb-bookings-for-woocommerce' ), $order_limit ),
 					'weeklyOffDays'       => $weekly_off_indexes,
 					'weekly_off_msg'      => __( 'This day is not available for booking.', 'mwb-bookings-for-woocommerce' ),
+					'currencySymbol'      => get_woocommerce_currency_symbol(),
 				]);
 			}
 		}
@@ -995,6 +996,16 @@ class Mwb_Bookings_For_Woocommerce_Public {
 			if ( 'd/m/Y' === wc_date_format() ) {
 				$wps_raw_from = preg_replace( '/^(\d{2})\/(\d{2})\/(\d{4})/', '$1-$2-$3', $wps_raw_from );
 				$wps_raw_to   = preg_replace( '/^(\d{2})\/(\d{2})\/(\d{4})/', '$1-$2-$3', $wps_raw_to );
+			}
+
+			// Validate that the end date is not before the start date for dual-calendar bookings.
+			if ( 'dual_cal' === $booking_type && ! empty( $wps_raw_from ) && ! empty( $wps_raw_to ) ) {
+				$ts_from = strtotime( $wps_raw_from );
+				$ts_to   = strtotime( $wps_raw_to );
+				if ( $ts_from && $ts_to && $ts_to < $ts_from ) {
+					wc_add_notice( __( 'The end date cannot be before the start date.', 'mwb-bookings-for-woocommerce' ), 'error' );
+					return $cart_item_data;
+				}
 			}
 
 			$custom_data = array(
@@ -1502,20 +1513,12 @@ class Mwb_Bookings_For_Woocommerce_Public {
 
 		ob_start();
 		?>
-		<div class='wps_global_calendar_class' id="booking-calendar-<?php echo esc_attr($post_id); ?>"></div>
-		<div id="booking-status-<?php echo esc_attr($post_id); ?>" style="margin-top:10px;"></div>
-		<!-- <div id="booking-calendar-<?php echo esc_attr($post_id); ?>"></div> -->
-
-		<!-- Dynamic field for showing selected dates -->
-		<!-- <textarea id="selected-dates-<?php echo esc_attr($post_id); ?>" readonly placeholder="Selected dates will appear here"></textarea> -->
-
-		<!-- Submit button -->
-		<!-- <button id="booking-submit-<?php echo esc_attr($post_id); ?>">Add to Cart</button> -->
-
-		<div id="wps-attached-global-booking-form">
-			<?php $this->wps_display_selected_form_before_booking( $post_id); ?>
+		<div class="wps-global-booking-widget">
+			<div class='wps_global_calendar_class' id="booking-calendar-<?php echo esc_attr($post_id); ?>"></div>
+			<div id="wps-attached-global-booking-form">
+				<?php $this->wps_display_selected_form_before_booking( $post_id); ?>
+			</div>
 		</div>
-
 		<?php
 		return ob_get_clean();
 	}
@@ -1538,10 +1541,17 @@ class Mwb_Bookings_For_Woocommerce_Public {
 				$form_data = [];
 			}
 
-			$product_id = $this->create_private_booking_product();
+			$product_id   = $this->create_private_booking_product();
 			$booking_date = isset( $_GET['booking_date'] ) ? sanitize_text_field( wp_unslash( $_GET['booking_date'] ) ) : '';
-			$booking_price = isset( $_GET['booking_price'] ) ? floatval( wp_unslash( $_GET['booking_price'] ) ) : 0;
-			$calendar_id = isset( $_GET['global_calendar_id'] ) ? sanitize_text_field( wp_unslash( $_GET['global_calendar_id'] ) ) : '';
+			$calendar_id  = isset( $_GET['global_calendar_id'] ) ? absint( wp_unslash( $_GET['global_calendar_id'] ) ) : 0;
+
+			// Calculate price server-side; never trust the client-supplied booking_price.
+			$default_price_per_day = 0;
+			if ( $calendar_id && 'wps_global_booking' === get_post_type( $calendar_id ) ) {
+				$default_price_per_day = floatval( get_post_meta( $calendar_id, '_booking_default_price', true ) );
+			}
+			$date_count    = ( ! empty( $booking_date ) ) ? count( array_filter( explode( ',', $booking_date ) ) ) : 1;
+			$booking_price = $default_price_per_day * max( 1, $date_count );
 
 			if ( $product_id && $booking_date ) {
 				// Remove existing booking items (optional).
@@ -1650,36 +1660,52 @@ class Mwb_Bookings_For_Woocommerce_Public {
 
     ?>
     <form method="post" class="wps-global-calendar-form">
-		<div id="booking-calendar-<?php echo esc_attr($atts); ?>"></div>
 
-		<div class="wps-global-selected-field-wrapper">
-			
-		<!-- Dynamic field for showing selected dates. -->
-		<input type="text" class="wps-global-form-field-for-selected-date" id="selected-dates-<?php echo esc_attr($atts); ?>" readonly placeholder="Selected dates will appear here"></input>
-		<div class="wps-global-form-field-wrapper">
-			<label> <?php echo esc_html__('Cost', 'mwb-bookings-for-woocommerce' ); ?></label>
-		<div class="wps_global-selected-date-cost" id="wps_global-selected-date-cost"> <?php echo esc_attr( $default_price );?> X 0 = 0</div>
+		<!-- Legend -->
+		<div class="wps-gcal-legend">
+			<div class="wps-gcal-legend-item">
+				<span class="wps-gcal-legend-dot available"></span>
+				<?php esc_html_e( 'Available', 'mwb-bookings-for-woocommerce' ); ?>
+			</div>
+			<div class="wps-gcal-legend-item">
+				<span class="wps-gcal-legend-dot selected"></span>
+				<?php esc_html_e( 'Selected', 'mwb-bookings-for-woocommerce' ); ?>
+			</div>
+			<div class="wps-gcal-legend-item">
+				<span class="wps-gcal-legend-dot unavailable"></span>
+				<?php esc_html_e( 'Unavailable', 'mwb-bookings-for-woocommerce' ); ?>
+			</div>
 		</div>
+		<div class="wps-gcal-limit-info" id="wps-gcal-limit-info-<?php echo esc_attr($atts); ?>"></div>
+
+		<!-- Selected date chip tags -->
+		<div class="wps-gcal-selected-label"><?php esc_html_e( 'Selected Dates', 'mwb-bookings-for-woocommerce' ); ?></div>
+		<div class="wps-gcal-chips-container" id="wps-gcal-chips-<?php echo esc_attr($atts); ?>"></div>
+
+		<!-- Price summary -->
+		<div class="wps-gcal-price-row" id="wps-gcal-price-row-<?php echo esc_attr($atts); ?>" style="display:none;">
+			<span class="wps-gcal-price-breakdown" id="wps-gcal-price-breakdown-<?php echo esc_attr($atts); ?>"></span>
+			<span class="wps-gcal-price-total" id="wps-gcal-price-total-<?php echo esc_attr($atts); ?>"></span>
 		</div>
+
+		<!-- Hidden field for selected dates (used on form submit) -->
+		<input type="hidden" id="selected-dates-<?php echo esc_attr($atts); ?>" name="booking_dates" value="">
+
 		<div class="wps-global-form-field-wrapper-group">
-                
+
 		<div class="wps-display-form-title">
-
-			<?php   $form_heading = get_post_meta($selected_form, '_wps_calendar_form_heading', true);
-			
+			<?php
+			$form_heading = get_post_meta($selected_form, '_wps_calendar_form_heading', true);
 			if (!empty($form_heading)) {
-				?> <h2><?php echo esc_html($form_heading); ?></h2> <?php
-
+				?><h2><?php echo esc_html($form_heading); ?></h2><?php
 			}
 			?>
-
 		</div>
-    <!-- Hidden field that WooCommerce will actually use. -->
-    <input type="hidden" id="booking-dates-<?php echo esc_attr($atts); ?>" name="booking_dates" value="">
-	 <?php if ( ! empty($selected_form) && is_array($fields)) {
+
+		<?php if ( ! empty($selected_form) && is_array($fields)) {
 			?><div class="wps-global-form-field-wr-gr-content"><?php
 		} else {
-			?>	<div class="wps-global-form-field-wr-gr-content-empty"><?php
+			?><div class="wps-global-form-field-wr-gr-content-empty"><?php
 		}
          if ( ! empty($selected_form)) {
 			if ( ! empty($fields)&& is_array($fields)) {
@@ -1757,10 +1783,10 @@ class Mwb_Bookings_For_Woocommerce_Public {
         <?php endforeach;
 		}
 	 } ?>
-   <!-- hidden add-to-cart field (important for WooCommerce). -->
+   <!-- Hidden add-to-cart field (required by WooCommerce). -->
     <input type="hidden" name="add-to-cart" value="<?php echo esc_attr($atts); ?>">
-		<!-- Submit button. -->
-		<button type="submit" class="wps_global_calendar_add_cart_button" id="booking-submit-<?php echo esc_attr($atts); ?>">Add to Cart</button>
+		<!-- Submit button — inherits theme color via .button.alt -->
+		<button type="submit" class="wps_global_calendar_add_cart_button button alt" id="booking-submit-<?php echo esc_attr($atts); ?>"><?php esc_html_e( 'Add to Cart', 'mwb-bookings-for-woocommerce' ); ?></button>
     
 	</div>
 		</div>
